@@ -1,0 +1,102 @@
+package dao;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+import beans.DirectMessage;
+import beans.User;
+import utils.DateHelper;
+
+public class DirectMessageDAO {
+	private HashMap<Integer, DirectMessage> messages = new HashMap<Integer, DirectMessage>();
+
+	public DirectMessageDAO() {
+		
+	}
+	
+	public DirectMessageDAO(String contextPath) {
+		loadDirectMessages(contextPath);
+	}
+	
+	public Collection<DirectMessage> findAll() {
+		Collection<DirectMessage> allDirectMessages = messages.values();
+		return allDirectMessages;
+	}
+	
+	public DirectMessage findDirectMessage(int id) {
+		return messages.containsKey(id) ? messages.get(id) : null;
+	}
+
+	
+	public DirectMessage save(DirectMessage message) {
+		int maxId = -1;
+		for (int id : messages.keySet()) {
+			if (id > maxId) {
+				maxId = id;
+			}
+		}
+
+		maxId++;
+		message.setId(maxId);
+		messages.put(maxId, message);
+		return message;
+	}
+
+	private void loadDirectMessages(String contextPath) {
+		BufferedReader in = null;
+		try {
+			File file = new File(contextPath + "/directmessages.txt");
+			System.out.println(file.getCanonicalPath());
+			in = new BufferedReader(new FileReader(file));
+			String line;
+			StringTokenizer st;
+			int id = 0;
+			int senderId;
+			int receiverId;
+			User sender = null;
+			User receiver = null;
+			String messageContext = "";
+			LocalDate messageDate = null;
+			while ((line = in.readLine()) != null) {
+				line = line.trim();
+				if (line.equals("") || line.indexOf('#') == 0)
+					continue;
+				st = new StringTokenizer(line, ";");
+				while (st.hasMoreTokens()) {
+					id = Integer.parseInt(st.nextToken().trim());
+					senderId = Integer.parseInt(st.nextToken().trim());
+					sender = new User(senderId);
+					receiverId = Integer.parseInt(st.nextToken().trim());
+					receiver = new User(receiverId);
+					messageContext = st.nextToken().trim();
+					messageDate = DateHelper.stringToDate(st.nextToken().trim());
+				}
+				messages.put(id, new DirectMessage(id, sender, receiver, messageContext, messageDate));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception e) {
+				}
+			}
+		}
+
+	}
+
+	public DirectMessage change(DirectMessage message) {
+		messages.put(message.getId(), message);
+		return message;
+	}
+
+	public DirectMessage delete(int id) {
+		return messages.remove(id);
+	}
+}
