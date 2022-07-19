@@ -16,16 +16,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.Product;
-import dao.ProductDAO;
+import beans.Post;
+import dao.PostDAO;
 
-@Path("/products")
-public class ProductService {
+@Path("/posts")
+public class PostService {
 	
 	@Context
 	ServletContext ctx;
 	
-	public ProductService() {
+	public PostService() {
 	}
 	
 	@PostConstruct
@@ -33,17 +33,17 @@ public class ProductService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("productDAO") == null) {
+		if (ctx.getAttribute("postDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("productDAO", new ProductDAO(contextPath));
+			ctx.setAttribute("postDAO", new PostDAO(contextPath));
 		}
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Product> getProducts() {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public Collection<Post> getPosts() {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
 		return dao.findAll();
 	}
 	
@@ -51,27 +51,26 @@ public class ProductService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Product newProduct(Product product) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.save(product);
+	public Post newPost(Post post) {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		return dao.save(post);
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product findOne(@PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.findProduct(id);
+	public Post findOne(@PathParam("id") int id) {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		return dao.findPost(id);
 	}
 	
-	// rest/products/search?name=Proizvod2
 	@GET
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product search(@QueryParam("name") String name) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public Post search(@QueryParam("name") String text) {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
 		return dao.findAll().stream()
-				.filter(product -> product.getName().equals(name))
+				.filter(post -> post.getText().equals(text))
 				.findFirst()
 				.orElse(null);
 	}
@@ -80,16 +79,16 @@ public class ProductService {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product changeOne(Product product, @PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.change(product);
+	public Post changeOne(Post post, @PathParam("id") String id) {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		return dao.change(post);
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product deleteProduct(@PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public Post deletePost(@PathParam("id") int id) {
+		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
 		return dao.delete(id);
 	}
 	

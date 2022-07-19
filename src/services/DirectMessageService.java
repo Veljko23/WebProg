@@ -16,16 +16,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.Product;
-import dao.ProductDAO;
+import beans.DirectMessage;
+import dao.DirectMessageDAO;
 
-@Path("/products")
-public class ProductService {
+@Path("/messages")
+public class DirectMessageService {
 	
 	@Context
 	ServletContext ctx;
 	
-	public ProductService() {
+	public DirectMessageService() {
 	}
 	
 	@PostConstruct
@@ -33,17 +33,17 @@ public class ProductService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("productDAO") == null) {
+		if (ctx.getAttribute("messageDAO") == null) {
 	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("productDAO", new ProductDAO(contextPath));
+			ctx.setAttribute("messageDAO", new DirectMessageDAO(contextPath));
 		}
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Product> getProducts() {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public Collection<DirectMessage> getDirectMessages() {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
 		return dao.findAll();
 	}
 	
@@ -51,27 +51,26 @@ public class ProductService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Product newProduct(Product product) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.save(product);
+	public DirectMessage newDirectMessage(DirectMessage message) {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		return dao.save(message);
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product findOne(@PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.findProduct(id);
+	public DirectMessage findOne(@PathParam("id") int id) {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		return dao.findDirectMessage(id);
 	}
 	
-	// rest/products/search?name=Proizvod2
 	@GET
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product search(@QueryParam("name") String name) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public DirectMessage search(@QueryParam("name") String text) {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
 		return dao.findAll().stream()
-				.filter(product -> product.getName().equals(name))
+				.filter(message -> message.getMessageContext().equals(text))
 				.findFirst()
 				.orElse(null);
 	}
@@ -80,16 +79,16 @@ public class ProductService {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product changeOne(Product product, @PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
-		return dao.change(product);
+	public DirectMessage changeOne(DirectMessage message, @PathParam("id") String id) {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		return dao.change(message);
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product deleteProduct(@PathParam("id") String id) {
-		ProductDAO dao = (ProductDAO) ctx.getAttribute("productDAO");
+	public DirectMessage deleteDirectMessage(@PathParam("id") int id) {
+		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
 		return dao.delete(id);
 	}
 	
