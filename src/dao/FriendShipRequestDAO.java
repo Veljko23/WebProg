@@ -16,12 +16,14 @@ import utils.DateHelper;
 public class FriendShipRequestDAO {
 	private HashMap<Integer, FriendshipRequest> requests = new HashMap<Integer, FriendshipRequest>();
 
-	public FriendShipRequestDAO() {
-		
-	}
+	private static FriendShipRequestDAO instance = null;
+	private FriendShipRequestDAO() {}
 	
-	public FriendShipRequestDAO(String contextPath) {
-		loadFriendshipRequests(contextPath);
+	public static FriendShipRequestDAO getInstance() {
+		if(instance == null)
+			instance = new FriendShipRequestDAO();
+		
+		return instance;
 	}
 	
 	public Collection<FriendshipRequest> findAll() {
@@ -48,10 +50,10 @@ public class FriendShipRequestDAO {
 		return friendshipRequest;
 	}
 
-	private void loadFriendshipRequests(String contextPath) {
+	public void loadFriendshipRequests(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/requests.txt");
+			File file = new File(contextPath + "/podaci/requests.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -91,6 +93,24 @@ public class FriendShipRequestDAO {
 			}
 		}
 
+	}
+	
+	public void bindRequestUser() {
+		for(FriendshipRequest request: requests.values()) {
+			int senderId = request.getSender().getId();
+			int receiverId = request.getRecepient().getId();
+			
+			User sender = UserDAO.getInstance().findUser(senderId);
+			User receiver = UserDAO.getInstance().findUser(receiverId);
+			if(sender == null || receiver == null) {
+				System.out.println("Nije pronadjen user. Greska!");
+				continue;
+			}
+			
+			request.setSender(sender);
+			request.setRecepient(receiver);
+			receiver.getRequests().add(request);
+		}
 	}
 
 	public FriendshipRequest change(FriendshipRequest friendshipRequest) {

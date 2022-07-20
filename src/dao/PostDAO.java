@@ -15,12 +15,14 @@ import beans.User;
 public class PostDAO {
 	private HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
 
-	public PostDAO() {
-		
-	}
+	private static PostDAO instance = null;
+	private PostDAO() {}
 	
-	public PostDAO(String contextPath) {
-		loadPosts(contextPath);
+	public static PostDAO getInstance() {
+		if(instance == null)
+			instance = new PostDAO();
+		
+		return instance;
 	}
 	
 	public Collection<Post> findAll() {
@@ -47,10 +49,10 @@ public class PostDAO {
 		return post;
 	}
 
-	private void loadPosts(String contextPath) {
+	public void loadPosts(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/posts.txt");
+			File file = new File(contextPath + "/podaci/posts.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -87,6 +89,20 @@ public class PostDAO {
 			}
 		}
 
+	}
+	
+	public void bindPostUser() {
+		for(Post post: posts.values()) {
+			int id = post.getUser().getId();
+			User user = UserDAO.getInstance().findUser(id);
+			
+			if(user == null) {
+				System.out.println("Doslo je do greske u ucitavanju.");
+				continue;
+			}
+			post.setUser(user);
+			user.getPosts().add(post);
+		}
 	}
 
 	public Post change(Post post) {

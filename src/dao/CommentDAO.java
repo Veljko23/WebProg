@@ -16,12 +16,14 @@ import utils.DateHelper;
 public class CommentDAO {
 	private HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
 
-	public CommentDAO() {
-		
-	}
+	private static CommentDAO instance = null;
+	private CommentDAO() {}
 	
-	public CommentDAO(String contextPath) {
-		loadComments(contextPath);
+	public static CommentDAO getInstance() {
+		if(instance == null)
+			instance = new CommentDAO();
+		
+		return instance;
 	}
 	
 	public Collection<Comment> findAll() {
@@ -48,10 +50,10 @@ public class CommentDAO {
 		return comment;
 	}
 
-	private void loadComments(String contextPath) {
+	public void loadComments(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/comments.txt");
+			File file = new File(contextPath + "/podaci/comments.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -92,6 +94,31 @@ public class CommentDAO {
 			}
 		}
 
+	}
+	
+	public void bindCommentPost() {
+		for (Comment comment: comments.values()) {
+			int id = comment.getPost().getId();
+			Post post = PostDAO.getInstance().findPost(id);
+			if(post == null) {
+				System.out.println("Doslo je do greske u ucitavanju");
+				continue;
+			}
+			comment.setPost(post);
+			post.getComments().add(comment);
+		}
+	}
+	
+	public void bindCommentUser() {
+		for (Comment comment: comments.values()) {
+			int id = comment.getPost().getId();
+			User user = UserDAO.getInstance().findUser(id);
+			if(user == null) {
+				System.out.println("Doslo je do greske u ucitavanju");
+				continue;
+			}
+			comment.setUser(user);
+		}
 	}
 
 	public Comment change(Comment comment) {

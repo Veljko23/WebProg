@@ -10,6 +10,7 @@ public class User {
 	
 	private int id;
 	private String username;
+	private String password;
 	private String email;
 	private String name;
 	private String surname;
@@ -38,12 +39,13 @@ public class User {
 		friends = new ArrayList<User>();
 	}
 
-	public User(int id, String username, String email, String name, String surname, LocalDate birdthDate, Gender gender,
+	public User(int id, String username, String password ,String email, String name, String surname, LocalDate birdthDate, Gender gender,
 			Role role, String picture, ArrayList<Post> posts, ArrayList<String> pictures,
 			ArrayList<FriendshipRequest> requests, ArrayList<User> friends, boolean privateProfile) {
 		super();
 		this.id = id;
 		this.username = username;
+		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.surname = surname;
@@ -72,6 +74,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getEmail() {

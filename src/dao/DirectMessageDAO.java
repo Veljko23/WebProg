@@ -15,12 +15,14 @@ import utils.DateHelper;
 public class DirectMessageDAO {
 	private HashMap<Integer, DirectMessage> messages = new HashMap<Integer, DirectMessage>();
 
-	public DirectMessageDAO() {
-		
-	}
+	private static DirectMessageDAO instance = null;
+	private DirectMessageDAO() {}
 	
-	public DirectMessageDAO(String contextPath) {
-		loadDirectMessages(contextPath);
+	public static DirectMessageDAO getInstance() {
+		if(instance == null)
+			instance = new DirectMessageDAO();
+		
+		return instance;
 	}
 	
 	public Collection<DirectMessage> findAll() {
@@ -47,10 +49,10 @@ public class DirectMessageDAO {
 		return message;
 	}
 
-	private void loadDirectMessages(String contextPath) {
+	public void loadDirectMessages(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/directmessages.txt");
+			File file = new File(contextPath + "/podaci/directmessages.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -89,6 +91,23 @@ public class DirectMessageDAO {
 			}
 		}
 
+	}
+	
+	public void bindMessageUser() {
+		for(DirectMessage message: messages.values()) {
+			int senderId = message.getSender().getId();
+			int receiverId = message.getReceiver().getId();
+			
+			User sender = UserDAO.getInstance().findUser(senderId);
+			User receiver = UserDAO.getInstance().findUser(receiverId);
+			
+			if(sender == null || receiver == null) {
+				System.out.println("Nije pronadjen user. Greska!");
+				continue;
+			}
+			message.setSender(sender);
+			message.setReceiver(receiver);
+		}
 	}
 
 	public DirectMessage change(DirectMessage message) {
