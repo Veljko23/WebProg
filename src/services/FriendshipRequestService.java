@@ -33,17 +33,16 @@ public class FriendshipRequestService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("requestDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("requestDAO", new FriendShipRequestDAO(contextPath));
-		}
+	    String contextPath = ctx.getRealPath("");
+		ProjectInit.getInstance(contextPath);
+		
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<FriendshipRequest> getFriendshipRequests() {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.findAll();
 	}
 	
@@ -52,7 +51,7 @@ public class FriendshipRequestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public FriendshipRequest newFriendshipRequest(FriendshipRequest request) {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.save(request);
 	}
 
@@ -60,7 +59,7 @@ public class FriendshipRequestService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public FriendshipRequest findOne(@PathParam("id") int id) {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.findFriendshipRequest(id);
 	}
 	
@@ -69,7 +68,7 @@ public class FriendshipRequestService {
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public FriendshipRequest search(@QueryParam("name") String text) {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.findAll().stream()
 				.filter(request -> request.getStatus().equals(text))
 				.findFirst()
@@ -81,7 +80,7 @@ public class FriendshipRequestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public FriendshipRequest changeOne(FriendshipRequest request, @PathParam("id") String id) {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.change(request);
 	}
 	
@@ -89,7 +88,7 @@ public class FriendshipRequestService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public FriendshipRequest deleteFriendshipRequest(@PathParam("id") int id) {
-		FriendShipRequestDAO dao = (FriendShipRequestDAO) ctx.getAttribute("requestDAO");
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.delete(id);
 	}
 	

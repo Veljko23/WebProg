@@ -33,17 +33,16 @@ public class PostService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("postDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("postDAO", new PostDAO(contextPath));
-		}
+	    String contextPath = ctx.getRealPath("");
+		ProjectInit.getInstance(contextPath);
+		
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Post> getPosts() {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.findAll();
 	}
 	
@@ -52,7 +51,7 @@ public class PostService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Post newPost(Post post) {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.save(post);
 	}
 
@@ -60,7 +59,7 @@ public class PostService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Post findOne(@PathParam("id") int id) {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.findPost(id);
 	}
 	
@@ -68,7 +67,7 @@ public class PostService {
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Post search(@QueryParam("name") String text) {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.findAll().stream()
 				.filter(post -> post.getText().equals(text))
 				.findFirst()
@@ -80,7 +79,7 @@ public class PostService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Post changeOne(Post post, @PathParam("id") String id) {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.change(post);
 	}
 	
@@ -88,7 +87,7 @@ public class PostService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Post deletePost(@PathParam("id") int id) {
-		PostDAO dao = (PostDAO) ctx.getAttribute("postDAO");
+		PostDAO dao = PostDAO.getInstance();
 		return dao.delete(id);
 	}
 	

@@ -1,9 +1,11 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.User;
 import dao.UserDAO;
@@ -33,17 +36,16 @@ public class UserService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("userDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("userDAO", new UserDAO(contextPath));
-		}
+	    String contextPath = ctx.getRealPath("");
+		ProjectInit.getInstance(contextPath);
+		
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<User> getUsers() {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
 		return dao.findAll();
 	}
 	
@@ -52,15 +54,35 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User newUser(User user) {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
+		
+		boolean exists = dao.existsUsername(user.getUsername());
+		if(exists) {
+			return null;
+		}
+		
 		return dao.save(user);
+	}
+	
+	@POST
+	@Path("/register")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response registerUser(User user) {
+		UserDAO dao = UserDAO.getInstance();
+		boolean exists = dao.existsUsername(user.getUsername());
+		if(exists) {
+			return Response.status(400).entity("Invalid username and/or password").build();
+		}
+		dao.save(user);
+		return Response.status(200).build();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public User findOne(@PathParam("id") int id) {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
 		return dao.findUser(id);
 	}
 	
@@ -68,7 +90,7 @@ public class UserService {
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public User search(@QueryParam("name") String text) {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
 		return dao.findAll().stream()
 				.filter(user -> user.getName().equals(text))
 				.findFirst()
@@ -80,7 +102,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User changeOne(User user, @PathParam("id") String id) {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
 		return dao.change(user);
 	}
 	
@@ -88,8 +110,50 @@ public class UserService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public User deleteUser(@PathParam("id") int id) {
-		UserDAO dao = (UserDAO) ctx.getAttribute("userDAO");
+		UserDAO dao = UserDAO.getInstance();
 		return dao.delete(id);
 	}
+	
+	@POST
+	@Path("/login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response login(User user, @Context HttpServletRequest request) {
+		UserDAO dao = UserDAO.getInstance();
+		User loggedUser = dao.findByUsernamePassword(user.getUsername(), user.getPassword());
+		if (loggedUser == null) {
+			return Response.status(400).entity("Invalid username and/or password").build();
+		}
+		request.getSession().setAttribute("user", loggedUser);
+		return Response.status(200).build();
+	}
+	
+	
+	@POST
+	@Path("/logout")
+	public void logout(@Context HttpServletRequest request) {
+		request.getSession().invalidate();
+	}
+	
+	@GET
+	@Path("/currentUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User login(@Context HttpServletRequest request) {
+		return (User) request.getSession().getAttribute("user");
+	}
+	
+	@GET
+	@Path("/mutualFriends")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<User> search(@Context HttpServletRequest request, @QueryParam("id") int id) {
+		UserDAO dao = UserDAO.getInstance();
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		ArrayList<User> mutuals = dao.getMutualFriends(loggedUser.getId(), id);
+		
+		return mutuals;
+	}
+	
+	
 	
 }

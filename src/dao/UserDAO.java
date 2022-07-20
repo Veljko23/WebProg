@@ -35,6 +35,44 @@ public class UserDAO {
 		Collection<User> allUsers = users.values();
 		return allUsers;
 	}
+	
+	public boolean existsUsername(String username) {
+		for(User user : users.values()) {
+			if(user.getUsername().equals(username)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public User findByUsernamePassword(String username, String password) {
+		for(User user : users.values()) {
+			if(user.getUsername().equals(username)) {
+				if(user.getPassword().equals(password)) {
+					return user;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<User> getMutualFriends(int user1Id, int user2Id){
+		User user1 = this.findUser(user1Id);
+		User user2 = this.findUser(user2Id);
+		
+		ArrayList<User> mutualFriends = new ArrayList<User>();
+		for(User user1Iter : user1.getFriends()) {		//u1 u2 u3
+			for(User user2Iter : user2.getFriends()) {	//u4 u2 u1
+				if(user1Iter.getId() == user2Iter.getId()) {
+					mutualFriends.add(user1Iter);
+					break;
+				}
+			}
+		}
+		
+		return mutualFriends;
+	}
+	
 
 	public User findUser(int id) {
 		return users.containsKey(id) ? users.get(id) : null;

@@ -33,17 +33,16 @@ public class CommentService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("commentDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("commentDAO", new CommentDAO(contextPath));
-		}
+	    String contextPath = ctx.getRealPath("");
+		ProjectInit.getInstance(contextPath);
+		
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Comment> getComments() {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.findAll();
 	}
 	
@@ -52,7 +51,7 @@ public class CommentService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Comment newComment(Comment comment) {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.save(comment);
 	}
 
@@ -60,7 +59,7 @@ public class CommentService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment findOne(@PathParam("id") int id) {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.findComment(id);
 	}
 	
@@ -68,7 +67,7 @@ public class CommentService {
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment search(@QueryParam("name") String text) {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.findAll().stream()
 				.filter(comment -> comment.getText().equals(text))
 				.findFirst()
@@ -80,7 +79,7 @@ public class CommentService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment changeOne(Comment comment, @PathParam("id") String id) {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.change(comment);
 	}
 	
@@ -88,7 +87,7 @@ public class CommentService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment deleteComment(@PathParam("id") int id) {
-		CommentDAO dao = (CommentDAO) ctx.getAttribute("commentDAO");
+		CommentDAO dao = CommentDAO.getInstance();
 		return dao.delete(id);
 	}
 	

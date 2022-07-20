@@ -33,17 +33,16 @@ public class DirectMessageService {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("messageDAO") == null) {
-	    	String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("messageDAO", new DirectMessageDAO(contextPath));
-		}
+	    String contextPath = ctx.getRealPath("");
+		ProjectInit.getInstance(contextPath);
+		
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<DirectMessage> getDirectMessages() {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.findAll();
 	}
 	
@@ -52,7 +51,7 @@ public class DirectMessageService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public DirectMessage newDirectMessage(DirectMessage message) {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.save(message);
 	}
 
@@ -60,7 +59,7 @@ public class DirectMessageService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public DirectMessage findOne(@PathParam("id") int id) {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.findDirectMessage(id);
 	}
 	
@@ -68,7 +67,7 @@ public class DirectMessageService {
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public DirectMessage search(@QueryParam("name") String text) {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.findAll().stream()
 				.filter(message -> message.getMessageContext().equals(text))
 				.findFirst()
@@ -80,7 +79,7 @@ public class DirectMessageService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public DirectMessage changeOne(DirectMessage message, @PathParam("id") String id) {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.change(message);
 	}
 	
@@ -88,7 +87,7 @@ public class DirectMessageService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public DirectMessage deleteDirectMessage(@PathParam("id") int id) {
-		DirectMessageDAO dao = (DirectMessageDAO) ctx.getAttribute("messageDAO");
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.delete(id);
 	}
 	
