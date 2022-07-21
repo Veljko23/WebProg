@@ -2,6 +2,8 @@ package beans;
 
 import java.time.LocalDate;
 
+import utils.DateHelper;
+
 public class Comment {
 	
 	private int id;
@@ -75,6 +77,9 @@ public class Comment {
 		this.post = post;
 	}
 	
-	
+	public String fileLine() {
+		return id + ";" + user.getId() + ";" + text + ";" + DateHelper.dateToString(commentDate) + ";" 
+	    + ((updateDate == null) ? "-1" : DateHelper.dateToString(updateDate)) + ";" + post.getId();
+	}
 
 }

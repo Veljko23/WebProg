@@ -66,5 +66,8 @@ public class Post {
 		this.user = user;
 	}
 	
+	public String fileLine() {
+		return id + ";" + picture + ";" + text + ";" + user.getId();
+	}
 	
 }

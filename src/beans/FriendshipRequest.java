@@ -3,6 +3,7 @@ package beans;
 import java.time.LocalDate;
 
 import enums.FriendshipRequestStatus;
+import utils.DateHelper;
 
 public class FriendshipRequest {
 	private int id;
@@ -68,5 +69,8 @@ public class FriendshipRequest {
 		this.requestDate = requestDate;
 	}
 	
+	public String fileLine() {
+		return id + ";" + sender.getId() + ";" + recepient.getId() + ";" + status.ordinal() + ";" + DateHelper.dateToString(requestDate);
+	}
 	
 }

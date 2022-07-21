@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +13,7 @@ import java.util.StringTokenizer;
 
 import beans.DirectMessage;
 import beans.User;
+import services.ProjectInit;
 import utils.DateHelper;
 
 public class DirectMessageDAO {
@@ -52,7 +56,7 @@ public class DirectMessageDAO {
 	public void loadDirectMessages(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/podaci/directmessages.txt");
+			File file = new File(contextPath + "/podaci/directMessages.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -89,6 +93,23 @@ public class DirectMessageDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+
+	}
+	
+	
+	public void saveToFile() {
+		BufferedWriter out = null;
+
+		File file = new File(ProjectInit.contextPath + "/podaci/directMessages.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (DirectMessage message : messages.values()) {
+				out.write(message.fileLine() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}

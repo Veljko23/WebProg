@@ -2,6 +2,8 @@ package beans;
 
 import java.time.LocalDate;
 
+import utils.DateHelper;
+
 public class DirectMessage {
 
 	private int id;
@@ -66,7 +68,8 @@ public class DirectMessage {
 		this.messageDate = messageDate;
 	}
 	
-	
-	
+	public String fileLine() {
+		return id + ";" + sender.getId() + ";" + receiver.getId() + ";" + messageContext + ";" + DateHelper.dateToString(messageDate);
+	}
 	
 }

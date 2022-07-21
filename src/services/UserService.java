@@ -154,6 +154,14 @@ public class UserService {
 		return mutuals;
 	}
 	
-	
+//	@DELETE
+//	@Path("/{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public User removeFriend(@Context HttpServletRequest request, @PathParam("id") int id) {
+//		UserDAO dao = UserDAO.getInstance();
+//		User loggedUser = (User) request.getSession().getAttribute("user");
+//		User friend = dao.removeFriend(loggedUser.getId(), id);
+//		return friend;
+//	} ========= treba promeniti Path, metoda je dobra!
 	
 }

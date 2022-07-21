@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import enums.Gender;
 import enums.Role;
+import utils.DateHelper;
 
 public class User {
 	
@@ -180,9 +181,10 @@ public class User {
 		this.privateProfile = privateProfile;
 	}
 	
+	public String fileLine() {
+		return id + ";" + username + ";" + password + ";" + email + ";" + name + ";" + surname + ";"
+				+ DateHelper.dateToString(birdthDate) + ";" + gender.ordinal() + ";" + role.ordinal() + ";" + picture
+				+ ";" + privateProfile;
+	}
 	
-	
-	
-	
-
 }

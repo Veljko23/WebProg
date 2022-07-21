@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import java.util.StringTokenizer;
 import beans.Comment;
 import beans.Post;
 import beans.User;
+import services.ProjectInit;
 import utils.DateHelper;
 
 public class CommentDAO {
@@ -76,10 +80,13 @@ public class CommentDAO {
 					userId = Integer.parseInt(st.nextToken().trim());
 					user = new User(userId);
 					text = st.nextToken().trim();
+					commentDate = DateHelper.stringToDate(st.nextToken().trim());
+					String upDate = st.nextToken().trim();
+					if(!upDate.equals("-1")) {
+						updateDate = DateHelper.stringToDate(upDate);						
+					}
 					postId = Integer.parseInt(st.nextToken().trim());
 					post = new Post(postId);
-					commentDate = DateHelper.stringToDate(st.nextToken().trim());
-					updateDate = DateHelper.stringToDate(st.nextToken().trim());
 				}
 				comments.put(id, new Comment(id, user, text, commentDate, updateDate, post));
 			}
@@ -92,6 +99,25 @@ public class CommentDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+
+	}
+	
+	
+	public void saveToFile() {
+		BufferedWriter out = null;
+
+		File file = new File(ProjectInit.contextPath + "/podaci/comments.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for(Comment comment : comments.values()) {
+				out.write(comment.fileLine() + "\n");
+			}
+			
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}

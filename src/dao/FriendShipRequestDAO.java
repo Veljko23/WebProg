@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import java.util.StringTokenizer;
 import beans.FriendshipRequest;
 import beans.User;
 import enums.FriendshipRequestStatus;
+import services.ProjectInit;
 import utils.DateHelper;
 
 public class FriendShipRequestDAO {
@@ -91,6 +95,22 @@ public class FriendShipRequestDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+
+	}
+	
+	public void saveToFile() {
+		BufferedWriter out = null;
+
+		File file = new File(ProjectInit.contextPath + "/podaci/friendshipRequests.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (FriendshipRequest request : requests.values()) {
+				out.write(request.fileLine() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}

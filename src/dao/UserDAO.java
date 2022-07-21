@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,6 +76,17 @@ public class UserDAO {
 		return mutualFriends;
 	}
 	
+	public User removeFriend(int user1Id, int user2Id){
+		User user1 = this.findUser(user1Id);
+		
+		for (User u: user1.getFriends()) {
+			if(u.getId() == user2Id) {
+				user1.getFriends().remove(u);
+				return u;
+			}
+		}
+		return null;
+	}
 
 	public User findUser(int id) {
 		return users.containsKey(id) ? users.get(id) : null;
@@ -89,13 +103,14 @@ public class UserDAO {
 		maxId++;
 		user.setId(maxId);
 		users.put(maxId, user);
+		saveToFile();
 		return user;
 	}
 
 	public void loadUsers(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/users.txt");
+			File file = new File(contextPath + "/podaci/users.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;
@@ -150,6 +165,52 @@ public class UserDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+
+	}
+	
+	public void saveToFile() {
+		BufferedWriter out = null;
+
+		File file = new File(ProjectInit.contextPath + "/podaci/users.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (User user : users.values()) {
+				out.write(user.fileLine() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		out = null;
+
+		file = new File(ProjectInit.contextPath + "/podaci/pictures.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (User user : users.values()) {
+				for (String picture : user.getPictures()) {
+					out.write(user.getId() + ";" + picture + "\n");
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		out = null;
+
+		file = new File(ProjectInit.contextPath + "/podaci/friends.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (User user : users.values()) {
+				for (User friend : user.getFriends()) {
+					out.write(user.getId() + ";" + friend.getId() + "\n");
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -214,7 +275,6 @@ public class UserDAO {
 				User user1 = UserDAO.getInstance().findUser(user1Id);
 				User user2 = UserDAO.getInstance().findUser(user2Id);
 				user1.getFriends().add(user2);
-				user2.getFriends().add(user1);
 
 			}
 		} catch (Exception e) {

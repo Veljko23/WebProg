@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import java.util.StringTokenizer;
 import beans.Comment;
 import beans.Post;
 import beans.User;
+import services.ProjectInit;
 
 public class PostDAO {
 	private HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
@@ -87,6 +91,22 @@ public class PostDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+
+	}
+	
+	public void saveToFile() {
+		BufferedWriter out = null;
+
+		File file = new File(ProjectInit.contextPath + "/podaci/posts.txt");
+		try {
+			out = new BufferedWriter(new FileWriter(file));
+			for (Post post : posts.values()) {
+				out.write(post.fileLine() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
