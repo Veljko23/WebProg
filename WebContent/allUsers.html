@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allUsers">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Username</th>
+					<th>Email</th>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Birdth Date</th>
+					<th>Gender</th>
+					<th>Role</th>
+
+				</tr>
+			</thead>
+
+			<tr v-for="u in users">
+				<td>{{u.username }}</td>
+				<td>{{u.email }}</td>
+				<td>{{u.name }}</td>
+				<td>{{u.surname }}</td>
+				<td>{{u.birdthDate }}</td>
+				<td>{{u.gender }}</td>
+				<td>{{u.role }}</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allUsers.js"></script>
+
+
+</body>
+</html>

@@ -127,9 +127,10 @@ public class CommentDAO {
 			int id = comment.getPost().getId();
 			Post post = PostDAO.getInstance().findPost(id);
 			if(post == null) {
-				System.out.println("Doslo je do greske u ucitavanju");
+				System.out.println("Doslo je do greske u ucitavanju commPost");
 				continue;
 			}
+			System.out.println(id);
 			comment.setPost(post);
 			post.getComments().add(comment);
 		}
@@ -137,10 +138,10 @@ public class CommentDAO {
 	
 	public void bindCommentUser() {
 		for (Comment comment: comments.values()) {
-			int id = comment.getPost().getId();
+			int id = comment.getUser().getId();
 			User user = UserDAO.getInstance().findUser(id);
 			if(user == null) {
-				System.out.println("Doslo je do greske u ucitavanju");
+				System.out.println("Doslo je do greske u ucitavanju commUser");
 				continue;
 			}
 			comment.setUser(user);

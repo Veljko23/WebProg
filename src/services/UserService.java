@@ -19,8 +19,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+
 import beans.User;
 import dao.UserDAO;
+import dto.UserDTO;
 
 @Path("/users")
 public class UserService {
@@ -44,9 +46,16 @@ public class UserService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<User> getUsers() {
+	public Collection<UserDTO> getUsers() {
 		UserDAO dao = UserDAO.getInstance();
-		return dao.findAll();
+		ArrayList<User> users = new ArrayList<User>(dao.findAll());
+		ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+		
+		for(User user: users) {
+			usersDTO.add(new UserDTO(user));
+		}
+		
+		return usersDTO;
 	}
 	
 	@POST
@@ -68,7 +77,8 @@ public class UserService {
 	@Path("/register")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registerUser(User user) {
+	public Response registerUser(UserDTO userDTO) {
+		User user = new User(userDTO);
 		UserDAO dao = UserDAO.getInstance();
 		boolean exists = dao.existsUsername(user.getUsername());
 		if(exists) {

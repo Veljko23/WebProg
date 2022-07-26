@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allComments">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>User</th>
+					<th>Text</th>
+					<th>CommentDate</th>
+					<th>UpdateDate</th>
+					<th>Post</th>
+				</tr>
+			</thead>
+
+			<tr v-for="c in comments">
+				<td>{{c.user.id }}</td>
+				<td>{{c.text }}</td>
+				<td>{{c.commentDate }}</td>
+				<td>{{c.updateDate }}</td>
+				<td>{{c.post.id }}</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allComments.js"></script>
+
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Comment;
 import dao.CommentDAO;
+import dto.CommentDTO;
 
 @Path("/comments")
 public class CommentService {
@@ -41,9 +43,16 @@ public class CommentService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getComments() {
+	public Collection<CommentDTO> getComments() {
 		CommentDAO dao = CommentDAO.getInstance();
-		return dao.findAll();
+		ArrayList<Comment> comments = new ArrayList<Comment>(dao.findAll());
+		ArrayList<CommentDTO> commentsDTO = new ArrayList<CommentDTO>();
+		
+		for(Comment comment : comments) {
+			commentsDTO.add(new CommentDTO(comment));
+		}
+		
+		return commentsDTO;
 	}
 	
 	@POST

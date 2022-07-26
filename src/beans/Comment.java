@@ -2,6 +2,7 @@ package beans;
 
 import java.time.LocalDate;
 
+import dto.CommentDTO;
 import utils.DateHelper;
 
 public class Comment {
@@ -25,6 +26,14 @@ public class Comment {
 		this.commentDate = commentDate;
 		this.updateDate = updateDate;
 		this.post = post;
+	}
+	
+	public Comment(CommentDTO commentDTO) {
+		super();
+		this.id = commentDTO.getId();
+		this.text = commentDTO.getText();
+		this.commentDate = DateHelper.stringToDate(commentDTO.getCommentDate());
+		this.updateDate = DateHelper.stringToDate(commentDTO.getUpdateDate());
 	}
 
 

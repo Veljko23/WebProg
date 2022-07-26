@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="register">
+
+		<form id="forma" @submit="registerUser" >
+			<table>
+				<tr>
+					<td>Username</td>
+					<td><input type="text" name="username" v-model="newUser.username"></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="text" name="email" v-model="newUser.email"></td>
+				</tr>
+				<tr>
+					<td>Birdth date</td>
+					<td><input type="date" name="birdthDate" v-model="newUser.birdthDate"></td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td><input type="text" name="name" v-model="newUser.name"></td>
+				</tr>
+				<tr>
+					<td>Surname</td>
+					<td><input type="text" name="surname" v-model="newUser.surname"></td>
+				</tr>
+				<tr>
+					<td>Gender</td>
+					<td><select v-model="newUser.gender">
+							<option value="MALE">Male</option>
+							<option value="FEMALE">Female</option>
+							<option value="OTHER">Other</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" name="password" v-model="newUser.password"></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password"></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Register"></td>
+				</tr>
+			</table>
+
+		</form>
+
+	</div>
+	
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/register.js"></script>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ package beans;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import dto.UserDTO;
 import enums.Gender;
 import enums.Role;
 import utils.DateHelper;
@@ -26,6 +27,25 @@ public class User {
 	private boolean privateProfile;
 	
 	public User() {
+		posts = new ArrayList<Post>();
+		pictures = new ArrayList<String>();
+		requests = new ArrayList<FriendshipRequest>();
+		friends = new ArrayList<User>();
+	}
+	
+	public User(UserDTO userDTO) {
+		this.id = userDTO.getId();
+		this.username = userDTO.getUsername();
+		this.password = userDTO.getPassword();
+		this.email = userDTO.getEmail();
+		this.name = userDTO.getName();
+		this.surname = userDTO.getSurname();
+		this.birdthDate = DateHelper.stringToDate(userDTO.getBirdthDate());
+		this.gender = userDTO.getGender();
+		this.role = userDTO.getRole();
+		this.picture = userDTO.getPicture();
+		this.privateProfile = userDTO.isPrivateProfile();
+		
 		posts = new ArrayList<Post>();
 		pictures = new ArrayList<String>();
 		requests = new ArrayList<FriendshipRequest>();
