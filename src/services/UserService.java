@@ -111,9 +111,10 @@ public class UserService {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User changeOne(User user, @PathParam("id") String id) {
+	public UserDTO changeOne(UserDTO userDTO, @PathParam("id") String id) {
+		User user = new User(userDTO);
 		UserDAO dao = UserDAO.getInstance();
-		return dao.change(user);
+		return new UserDTO(dao.change(user));
 	}
 	
 	@DELETE
@@ -149,8 +150,12 @@ public class UserService {
 	@Path("/currentUser")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User login(@Context HttpServletRequest request) {
-		return (User) request.getSession().getAttribute("user");
+	public UserDTO login(@Context HttpServletRequest request) {
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		UserDTO userDTO = new UserDTO(user);
+		return userDTO;
 	}
 	
 	@GET

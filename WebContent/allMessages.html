@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allMessages">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Sender</th>
+					<th>Receiver</th>
+					<th>Message</th>
+					<th>MessageDate</th>
+				</tr>
+			</thead>
+
+			<tr v-for="m in messages">
+				<td>{{m.sender.id }}</td>
+				<td>{{m.receiver.id }}</td>
+				<td>{{m.messageContext }}</td>
+				<td>{{m.messageDate }}</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allMessages.js"></script>
+
+
+</body>
+</html>

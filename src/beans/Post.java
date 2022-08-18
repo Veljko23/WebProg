@@ -2,6 +2,8 @@ package beans;
 
 import java.util.ArrayList;
 
+import dto.PostDTO;
+
 public class Post {
 	private int id;
 	private String picture;
@@ -17,6 +19,18 @@ public class Post {
 		this.id = id;
 		comments = new ArrayList<Comment>();
 	}
+	
+	public Post(PostDTO postDTO) {
+		super();
+		this.id = postDTO.getId();
+		this.picture = postDTO.getPicture();
+		this.text = postDTO.getText();
+		this.user = postDTO.getUser();
+		
+		comments = new ArrayList<Comment>();
+	}
+	
+
 	public Post(int id, String picture, String text, ArrayList<Comment> comments, User user) {
 		super();
 		this.id = id;

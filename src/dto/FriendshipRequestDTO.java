@@ -1,39 +1,38 @@
-package beans;
+package dto;
 
-import java.time.LocalDate;
 
-import dto.FriendshipRequestDTO;
+import beans.FriendshipRequest;
+import beans.User;
 import enums.FriendshipRequestStatus;
 import utils.DateHelper;
 
-public class FriendshipRequest {
+public class FriendshipRequestDTO {
+	
 	private int id;
 	private User sender;
 	private User recepient;
 	private FriendshipRequestStatus status;
-	private LocalDate requestDate;
+	private String requestDate;
 	
-	public FriendshipRequest() {
-		
-	}
-	
-	public FriendshipRequest(FriendshipRequestDTO requestDTO) {
-		super();
-		this.id = requestDTO.getId();
-		this.sender = requestDTO.getSender();
-		this.recepient = requestDTO.getRecepient();
-		this.status = requestDTO.getStatus();
-		this.requestDate = DateHelper.stringToDate(requestDTO.getRequestDate());
-	}
+	public FriendshipRequestDTO() {}
 
-	public FriendshipRequest(int id, User sender, User recepient, FriendshipRequestStatus status,
-			LocalDate requestDate) {
+	public FriendshipRequestDTO(int id, User sender, User recepient, FriendshipRequestStatus status,
+			String requestDate) {
 		super();
 		this.id = id;
 		this.sender = sender;
 		this.recepient = recepient;
 		this.status = status;
 		this.requestDate = requestDate;
+	}
+
+	public FriendshipRequestDTO(FriendshipRequest request) {
+		super();
+		this.id = request.getId();
+		this.sender = request.getSender();
+		this.recepient = request.getRecepient();
+		this.status = request.getStatus();
+		this.requestDate = DateHelper.dateToString(request.getRequestDate());
 	}
 
 	public int getId() {
@@ -68,16 +67,16 @@ public class FriendshipRequest {
 		this.status = status;
 	}
 
-	public LocalDate getRequestDate() {
+	public String getRequestDate() {
 		return requestDate;
 	}
 
-	public void setRequestDate(LocalDate requestDate) {
+	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
 	}
 	
-	public String fileLine() {
-		return id + ";" + sender.getId() + ";" + recepient.getId() + ";" + status.ordinal() + ";" + DateHelper.dateToString(requestDate);
-	}
 	
+	
+	
+
 }

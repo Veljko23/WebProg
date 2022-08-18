@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My data</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+	<div id="personalData">
+
+			<table>
+				<tr>
+					<td>Username</td>
+					<td><input disabled type="text" name="username" v-model="currentUser.username"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.username !== undefined && (currentUser.username !== ''))">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="text" name="email" v-model="currentUser.email"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.email !== undefined && currentUser.email !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Birdth date</td>
+					<td><input type="date" name="birdthDate" v-model="currentUser.birdthDate"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.birdthDate !== undefined && currentUser.birdthDate !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td><input type="text" name="name" v-model="currentUser.name"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.name !== undefined && currentUser.name !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Surname</td>
+					<td><input type="text" name="surname" v-model="currentUser.surname"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.surname !== undefined && currentUser.surname !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Gender</td>
+					<td><select v-model="currentUser.gender">
+							<option value="MALE">Male</option>
+							<option value="FEMALE">Female</option>
+							<option value="OTHER">Other</option>
+					</select></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.gender !== undefined && currentUser.gender !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" name="password" v-model="currentUser.password"></td>
+					<td v-bind:hidden="!triedRegistering || (currentUser.password !== undefined && currentUser.password !== '')">{{error}}</td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" v-model="confirmedPassword"></td>
+					<td v-bind:hidden="!triedRegistering || errorForConfirming ===''">{{errorForConfirming}}</td>
+				</tr>
+				<tr>
+					<td><button v-on:click="changeUser()">Change</button></td>
+				</tr>
+			</table>
+
+
+	</div>
+	
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/personalData.js"></script>
+
+</body>
+</html>

@@ -13,22 +13,27 @@
 				<tr>
 					<td>Username</td>
 					<td><input type="text" name="username" v-model="newUser.username"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.username !== undefined && (newUser.username !== ''))">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Email</td>
 					<td><input type="text" name="email" v-model="newUser.email"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.email !== undefined && newUser.email !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Birdth date</td>
 					<td><input type="date" name="birdthDate" v-model="newUser.birdthDate"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.birdthDate !== undefined && newUser.birdthDate !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Name</td>
 					<td><input type="text" name="name" v-model="newUser.name"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.name !== undefined && newUser.name !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Surname</td>
 					<td><input type="text" name="surname" v-model="newUser.surname"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.surname !== undefined && newUser.surname !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Gender</td>
@@ -37,14 +42,17 @@
 							<option value="FEMALE">Female</option>
 							<option value="OTHER">Other</option>
 					</select></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.gender !== undefined && newUser.gender !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Password</td>
 					<td><input type="password" name="password" v-model="newUser.password"></td>
+					<td v-bind:hidden="!triedRegistering || (newUser.password !== undefined && newUser.password !== '')">{{error}}</td>
 				</tr>
 				<tr>
 					<td>Password</td>
-					<td><input type="password"></td>
+					<td><input type="password" v-model="confirmedPassword"></td>
+					<td v-bind:hidden="!triedRegistering || errorForConfirming ===''">{{errorForConfirming}}</td>
 				</tr>
 				<tr>
 					<td><input type="submit" value="Register"></td>

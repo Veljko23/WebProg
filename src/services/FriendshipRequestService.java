@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.FriendshipRequest;
 import dao.FriendShipRequestDAO;
+import dto.FriendshipRequestDTO;
 
 @Path("/requests")
 public class FriendshipRequestService {
@@ -41,9 +43,16 @@ public class FriendshipRequestService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<FriendshipRequest> getFriendshipRequests() {
+	public Collection<FriendshipRequestDTO> getFriendshipRequests() {
 		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
-		return dao.findAll();
+		ArrayList<FriendshipRequest> requests = new ArrayList<FriendshipRequest>(dao.findAll());
+		ArrayList<FriendshipRequestDTO> requestsDTO = new ArrayList<FriendshipRequestDTO>();
+		
+		for(FriendshipRequest request : requests) {
+			requestsDTO.add(new FriendshipRequestDTO(request));
+		}
+		
+		return requestsDTO;
 	}
 	
 	@POST

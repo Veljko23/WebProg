@@ -3,12 +3,13 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="jquery-3.3.1.min.js"></script>
+	<script src="login.js"></script>
 </head>
 <body>
-	<form id="forma" hidden="true">
+	<form id="forma">
 		<table>
-			<tr><td>Username</td><td><input type="text" name="username"></td></tr>
-			<tr><td>Password</td><td><input type="password" name="password"></td></tr>
+			<tr><td>Username</td><td><input type="text" name="username"></td><td><p id="errorUsername" hidden="true"></p></td></tr>
+			<tr><td>Password</td><td><input type="password" name="password"></td><td><p id="errorPassword" hidden="true"></p></td></tr>
 			<tr><td><input type="submit" value="Login"></td></tr>
 		</table>
 		<p id="error" hidden="true"></p>

@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Post;
 import dao.PostDAO;
+import dto.PostDTO;
 
 @Path("/posts")
 public class PostService {
@@ -41,9 +43,16 @@ public class PostService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Post> getPosts() {
+	public Collection<PostDTO> getPosts() {
 		PostDAO dao = PostDAO.getInstance();
-		return dao.findAll();
+		ArrayList<Post> posts = new ArrayList<Post>(dao.findAll());
+		ArrayList<PostDTO> postsDTO = new ArrayList<PostDTO>();
+		
+		for(Post post: posts) {
+			postsDTO.add(new PostDTO(post));
+		}
+		
+		return postsDTO;
 	}
 	
 	@POST

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allPosts">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Picture</th>
+					<th>Text</th>
+					<th>User</th>
+				</tr>
+			</thead>
+
+			<tr v-for="p in posts">
+				<td>{{p.picture }}</td>
+				<td>{{p.text }}</td>
+				<td>{{p.user.id }}</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allPosts.js"></script>
+
+
+</body>
+</html>

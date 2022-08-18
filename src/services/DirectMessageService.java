@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.DirectMessage;
 import dao.DirectMessageDAO;
+import dto.DirectMessageDTO;
 
 @Path("/messages")
 public class DirectMessageService {
@@ -41,9 +43,16 @@ public class DirectMessageService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<DirectMessage> getDirectMessages() {
+	public Collection<DirectMessageDTO> getDirectMessages() {
 		DirectMessageDAO dao = DirectMessageDAO.getInstance();
-		return dao.findAll();
+		ArrayList<DirectMessage> messages = new ArrayList<DirectMessage>(dao.findAll());
+		ArrayList<DirectMessageDTO> messagesDTO = new ArrayList<DirectMessageDTO>();
+		
+		for(DirectMessage message : messages) {
+			messagesDTO.add(new DirectMessageDTO(message));
+		}
+		
+		return messagesDTO;
 	}
 	
 	@POST

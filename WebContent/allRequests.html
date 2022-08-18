@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allRequests">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Sender</th>
+					<th>Receiver</th>
+					<th>Status</th>
+					<th>Request Date</th>
+				</tr>
+			</thead>
+
+			<tr v-for="r in requests">
+				<td>{{r.sender.id }}</td>
+				<td>{{r.recepient.id }}</td>
+				<td>{{r.status }}</td>
+				<td>{{r.requestDate }}</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allRequests.js"></script>
+
+
+</body>
+</html>

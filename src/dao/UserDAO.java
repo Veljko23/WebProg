@@ -181,6 +181,13 @@ public class UserDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 		out = null;
@@ -196,6 +203,13 @@ public class UserDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 		out = null;
@@ -211,6 +225,13 @@ public class UserDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 	}
@@ -290,9 +311,16 @@ public class UserDAO {
 
 	}
 
-	public User change(User user) {
-		users.put(user.getId(), user);
-		return user;
+	public User change(User newUser) {
+		User oldUser = users.get(newUser.getId());
+		oldUser.setPassword(newUser.getPassword());
+		oldUser.setEmail(newUser.getEmail());
+		oldUser.setName(newUser.getName());
+		oldUser.setSurname(newUser.getSurname());
+		oldUser.setBirdthDate(newUser.getBirdthDate());
+		oldUser.setGender(newUser.getGender());
+		saveToFile();
+		return oldUser;
 	}
 
 	public User delete(int id) {

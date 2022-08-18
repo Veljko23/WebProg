@@ -1,24 +1,20 @@
-package beans;
+package dto;
 
-import java.time.LocalDate;
 
-import dto.DirectMessageDTO;
+import beans.DirectMessage;
+import beans.User;
 import utils.DateHelper;
 
-public class DirectMessage {
-
+public class DirectMessageDTO {
 	private int id;
 	private User sender;
 	private User receiver;
 	private String messageContext;
-	private LocalDate messageDate;
+	private String messageDate;
 	
-	public DirectMessage() {
-		
-	}
-	
+	public DirectMessageDTO() {}
 
-	public DirectMessage(int id, User sender, User receiver, String messageContext, LocalDate messageDate) {
+	public DirectMessageDTO(int id, User sender, User receiver, String messageContext, String messageDate) {
 		super();
 		this.id = id;
 		this.sender = sender;
@@ -26,16 +22,15 @@ public class DirectMessage {
 		this.messageContext = messageContext;
 		this.messageDate = messageDate;
 	}
-	
-	public DirectMessage(DirectMessageDTO messageDTO) {
-		this.id = messageDTO.getId();
-		this.sender = messageDTO.getSender();
-		this.receiver = messageDTO.getReceiver();
-		this.messageContext = messageDTO.getMessageContext();
-		this.messageDate = DateHelper.stringToDate(messageDTO.getMessageDate());
+
+	public DirectMessageDTO(DirectMessage message) {
+		super();
+		this.id = message.getId();
+		this.sender = message.getSender();
+		this.receiver = message.getReceiver();
+		this.messageContext = message.getMessageContext();
+		this.messageDate = DateHelper.dateToString(message.getMessageDate());
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -69,16 +64,15 @@ public class DirectMessage {
 		this.messageContext = messageContext;
 	}
 
-	public LocalDate getMessageDate() {
+	public String getMessageDate() {
 		return messageDate;
 	}
 
-	public void setMessageDate(LocalDate messageDate) {
+	public void setMessageDate(String messageDate) {
 		this.messageDate = messageDate;
 	}
 	
-	public String fileLine() {
-		return id + ";" + sender.getId() + ";" + receiver.getId() + ";" + messageContext + ";" + DateHelper.dateToString(messageDate);
-	}
+	
+	
 	
 }
