@@ -8,32 +8,30 @@ import utils.DateHelper;
 
 public class CommentDTO {
 	private int id;
-	private User user;
 	private String text;
 	private String commentDate;
 	private String updateDate;
-	private Post post;
+	private String userName;
+	private String userSurname;
 	
 	public CommentDTO() {}
 
 	public CommentDTO(int id, User user, String text, String commentDate, String updateDate, Post post) {
 		super();
 		this.id = id;
-		this.user = user;
 		this.text = text;
 		this.commentDate = commentDate;
 		this.updateDate = updateDate;
-		this.post = post;
 	}
 
 	public CommentDTO(Comment comment) {
 		super();
 		this.id = comment.getId();
-		this.user = comment.getUser();
 		this.text = comment.getText();
 		this.commentDate = DateHelper.dateToString(comment.getCommentDate());
 		this.updateDate = DateHelper.dateToString(comment.getUpdateDate());
-		this.post = comment.getPost();
+		this.userName = comment.getUser().getName();
+		this.userSurname = comment.getUser().getSurname();
 	}
 
 	public int getId() {
@@ -42,14 +40,6 @@ public class CommentDTO {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public String getText() {
@@ -76,15 +66,21 @@ public class CommentDTO {
 		this.updateDate = updateDate;
 	}
 
-	public Post getPost() {
-		return post;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setPost(Post post) {
-		this.post = post;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserSurname() {
+		return userSurname;
+	}
+
+	public void setUserSurname(String userSurname) {
+		this.userSurname = userSurname;
 	}
 	
-	
-	
-	
+
 }

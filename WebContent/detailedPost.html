@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>My data</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+	<div id="detailedPost">
+
+		<table>
+			<tr>
+				<td>Picture</td>
+				<td>{{post.picture}}</td>
+			</tr>
+			<tr>
+				<td>Text</td>
+				<td>{{post.text}}</td>
+			</tr>
+			
+		</table>
+		<p> Comments </p>
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Comments</th>
+				</tr>
+			</thead>
+
+			<tr v-for="c in commentsForPost">
+				<td>{{c.userName}}</td>
+				<td>{{c.userSurname}}</td>
+				<td>{{c.text}}</td>
+				<td>{{c.commentDate}}</td>
+
+			</tr>
+		</table>
+		
+		
+		<button type="button" v-on:click="deletePost()"> Delete picture</button>
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/detailedPost.js"></script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ var app = new Vue({
 	el: '#personalData',
 	data: {
 		currentUser: {},
+		posts:{},
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',
@@ -13,6 +14,10 @@ var app = new Vue({
 					this.currentUser = response.data;
 					[day, month, year] = this.currentUser.birdthDate.split('.');
 					this.currentUser.birdthDate = year + '-' + month + '-' + day;
+				})
+		axios.get('rest/users/currentUserPosts')
+				.then(response => {
+					this.posts = response.data;
 				})
 	},
 	methods: {
@@ -42,6 +47,12 @@ var app = new Vue({
 					.catch(response => {alert('Doslo je do greske prilikom izmene podataka!')})
 			event.preventDefault();
 			return;
+		},
+		clickedPicture: function(post) {
+			axios.post('rest/posts/setPost', post)
+			.then(response => {
+				window.location.href = "http://localhost:8080/WebProg/detailedPost.html"
+			})
 		}
 	}
 });

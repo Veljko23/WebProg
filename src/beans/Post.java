@@ -25,7 +25,7 @@ public class Post {
 		this.id = postDTO.getId();
 		this.picture = postDTO.getPicture();
 		this.text = postDTO.getText();
-		this.user = postDTO.getUser();
+		//this.user = postDTO.getUser();
 		
 		comments = new ArrayList<Comment>();
 	}

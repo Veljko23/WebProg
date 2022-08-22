@@ -19,9 +19,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
+import beans.Post;
 import beans.User;
 import dao.UserDAO;
+import dto.PostDTO;
 import dto.UserDTO;
 
 @Path("/users")
@@ -167,6 +168,34 @@ public class UserService {
 		ArrayList<User> mutuals = dao.getMutualFriends(loggedUser.getId(), id);
 		
 		return mutuals;
+	}
+	
+	@GET
+	@Path("/currentUserPictures")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> allPictures(@Context HttpServletRequest request){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		
+		return user.getPictures();
+	}
+	
+	@GET
+	@Path("/currentUserPosts")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<PostDTO> allPosts(@Context HttpServletRequest request){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		
+		ArrayList<PostDTO> postDTO = new ArrayList<PostDTO>();
+		
+		for(Post post: user.getPosts()) {
+			postDTO.add(new PostDTO(post));
+		}
+		
+		return postDTO;
 	}
 	
 //	@DELETE

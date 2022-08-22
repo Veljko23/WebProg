@@ -22,7 +22,7 @@
 				</tr>
 			</thead>
 
-			<tr v-for="u in users">
+			<tr v-for="u in searchedUsers">
 				<td>{{u.username }}</td>
 				<td>{{u.email }}</td>
 				<td>{{u.name }}</td>
@@ -33,6 +33,28 @@
 			</tr>
 		</table>
 
+		<br>
+
+		<table id="pretraga">
+			<tr >
+				<td>Name</td>
+				<td> <input type="text" name="name" v-model="searchName"> </td>
+			</tr>
+			<tr >
+				<td>Surname</td>
+				<td> <input type="text" name="surname" v-model="searchSurname"> </td>
+			</tr>
+			<tr >
+				<td>Birdth Begin</td>
+				<td> <input type="date"  v-model="searchBirdthBegin"> </td>
+				<td>Birdth End</td>
+				<td><input type="date" v-model="searchBirdthEnd"></td>
+			</tr>
+			<tr >
+				<td><button type="button" v-on:click="search()"> Search </button></td>
+			</tr>
+		</table>
+		<br>
 
 
 	</div>

@@ -12,16 +12,13 @@
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
-					<th>Picture</th>
-					<th>Text</th>
-					<th>User</th>
+					<th>Path</th>
 				</tr>
 			</thead>
 
-			<tr v-for="u in currentUser.posts">
-				<td>{{u.picture }}</td>
-				<td>{{u.text }}</td>
-				<td>{{u.user.id }}</td>
+			<tr v-for="u in currentUser">
+				<td>{{u.pictures }}</td>
+
 			</tr>
 		</table>
 

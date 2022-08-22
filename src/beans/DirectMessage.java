@@ -29,8 +29,6 @@ public class DirectMessage {
 	
 	public DirectMessage(DirectMessageDTO messageDTO) {
 		this.id = messageDTO.getId();
-		this.sender = messageDTO.getSender();
-		this.receiver = messageDTO.getReceiver();
 		this.messageContext = messageDTO.getMessageContext();
 		this.messageDate = DateHelper.stringToDate(messageDTO.getMessageDate());
 	}

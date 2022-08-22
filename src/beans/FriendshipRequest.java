@@ -20,8 +20,6 @@ public class FriendshipRequest {
 	public FriendshipRequest(FriendshipRequestDTO requestDTO) {
 		super();
 		this.id = requestDTO.getId();
-		this.sender = requestDTO.getSender();
-		this.recepient = requestDTO.getRecepient();
 		this.status = requestDTO.getStatus();
 		this.requestDate = DateHelper.stringToDate(requestDTO.getRequestDate());
 	}

@@ -1,2 +1,3 @@
 1;slikaproba1
 2;slikaproba2
+2;slikaproba23

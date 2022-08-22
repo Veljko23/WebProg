@@ -7,8 +7,6 @@ import utils.DateHelper;
 
 public class DirectMessageDTO {
 	private int id;
-	private User sender;
-	private User receiver;
 	private String messageContext;
 	private String messageDate;
 	
@@ -17,8 +15,6 @@ public class DirectMessageDTO {
 	public DirectMessageDTO(int id, User sender, User receiver, String messageContext, String messageDate) {
 		super();
 		this.id = id;
-		this.sender = sender;
-		this.receiver = receiver;
 		this.messageContext = messageContext;
 		this.messageDate = messageDate;
 	}
@@ -26,8 +22,6 @@ public class DirectMessageDTO {
 	public DirectMessageDTO(DirectMessage message) {
 		super();
 		this.id = message.getId();
-		this.sender = message.getSender();
-		this.receiver = message.getReceiver();
 		this.messageContext = message.getMessageContext();
 		this.messageDate = DateHelper.dateToString(message.getMessageDate());
 	}
@@ -38,22 +32,6 @@ public class DirectMessageDTO {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public User getSender() {
-		return sender;
-	}
-
-	public void setSender(User sender) {
-		this.sender = sender;
-	}
-
-	public User getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
 	}
 
 	public String getMessageContext() {
@@ -71,8 +49,5 @@ public class DirectMessageDTO {
 	public void setMessageDate(String messageDate) {
 		this.messageDate = messageDate;
 	}
-	
-	
-	
 	
 }

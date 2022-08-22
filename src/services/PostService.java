@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,8 +18,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Comment;
 import beans.Post;
 import dao.PostDAO;
+import dto.CommentDTO;
 import dto.PostDTO;
 
 @Path("/posts")
@@ -98,6 +101,47 @@ public class PostService {
 	public Post deletePost(@PathParam("id") int id) {
 		PostDAO dao = PostDAO.getInstance();
 		return dao.delete(id);
+	}
+	
+	@POST
+	@Path("/setPost")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void setPost(PostDTO postDTO, @Context HttpServletRequest request ) {
+		request.getSession().setAttribute("postId", postDTO.getId());
+		
+		return;
+	}
+	
+	@GET
+	@Path("/getPost")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public PostDTO getPost( @Context HttpServletRequest request) {
+		if(request.getSession().getAttribute("postId") == null) {
+			return null;
+		}
+		int postId = (int)request.getSession().getAttribute("postId");
+		Post post = PostDAO.getInstance().findPost(postId);
+		
+		return new PostDTO(post);
+	}
+	
+	@GET
+	@Path("/getCommentsForPost/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<CommentDTO> getCommentsPost(@PathParam("id") int id) {
+		
+		Post post = PostDAO.getInstance().findPost(id);
+		
+		ArrayList<CommentDTO> dtos = new ArrayList<CommentDTO>();
+		for(Comment comment : post.getComments()) {
+			dtos.add(new CommentDTO(comment));
+		}
+		
+		
+		return dtos;
 	}
 	
 }

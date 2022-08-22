@@ -12,7 +12,6 @@ public class PostDTO {
 	private String picture;
 	private String text;
 	//private ArrayList<Comment> comments;
-	private User user;
 	
 	public PostDTO() {}
 
@@ -21,7 +20,6 @@ public class PostDTO {
 		this.id = id;
 		this.picture = picture;
 		this.text = text;
-		this.user = user;
 	}
 
 	public PostDTO(Post post) {
@@ -29,7 +27,6 @@ public class PostDTO {
 		this.id = post.getId();
 		this.picture = post.getPicture();
 		this.text = post.getText();
-		this.user = post.getUser();
 	}
 
 	public int getId() {
@@ -55,15 +52,5 @@ public class PostDTO {
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	
 	
 }

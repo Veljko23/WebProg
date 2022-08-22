@@ -131,6 +131,14 @@ public class PostDAO {
 	}
 
 	public Post delete(int id) {
+		Post post = posts.get(id);
+		ArrayList<Post> userPosts = post.getUser().getPosts();
+		for(Post postIter: userPosts) {
+			if(postIter.getId() == id) {
+				userPosts.add(postIter);
+				break;
+			}
+		}
 		return posts.remove(id);
 	}
 }
