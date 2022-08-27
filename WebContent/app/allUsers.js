@@ -39,7 +39,13 @@ var app = new Vue({
 						}
 					}
 				}
-			}
+			},
+			userDetails: function(user) {
+				axios.post('rest/users/setUserForView', user)
+				.then(response => {
+					window.location.href = "http://localhost:8080/WebProg/detailedUser.html"
+				})
+			},
 		
 	}
 });

@@ -32,8 +32,8 @@ public class Comment {
 		super();
 		this.id = commentDTO.getId();
 		this.text = commentDTO.getText();
-		this.commentDate = DateHelper.stringToDate(commentDTO.getCommentDate());
-		this.updateDate = DateHelper.stringToDate(commentDTO.getUpdateDate());
+		this.commentDate = (commentDTO.getCommentDate() == null) ? null : DateHelper.stringToDate(commentDTO.getCommentDate());
+		this.updateDate = (commentDTO.getUpdateDate() == null) ? null : DateHelper.stringToDate(commentDTO.getUpdateDate());
 	}
 
 

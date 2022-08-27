@@ -2,7 +2,9 @@ var app = new Vue({
 	el: '#detailedPost',
 	data: {
 		post: {},
-		commentsForPost: []
+		commentsForPost: [],
+		writeComment: false,
+		comment: {}
 	},
 	mounted() {
 		axios.get('rest/posts/getPost')
@@ -16,14 +18,19 @@ var app = new Vue({
 			})
 	},
 	methods: {
-		deletePost: function(){
-			axios.delete('rest/posts/' + this.post.id)
-			.then(response => {
-				alert('Post deleted succesfully ')
-				window.location.href = "http://localhost:8080/WebProg/personalData.html"
-			})
-			
+		showComment: function() {
+			this.writeComment = true;
+
+		},
+		saveComment: function(){
+			this.writeComment = false;
+			axios.post('rest/comments/' + this.post.id, this.comment)
+					.then(response => {
+						this.commentsForPost.push(response.data);
+
+					})
 		}
+		
 
 	}
 });

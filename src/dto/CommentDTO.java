@@ -29,7 +29,7 @@ public class CommentDTO {
 		this.id = comment.getId();
 		this.text = comment.getText();
 		this.commentDate = DateHelper.dateToString(comment.getCommentDate());
-		this.updateDate = DateHelper.dateToString(comment.getUpdateDate());
+		this.updateDate = (comment.getUpdateDate() == null) ? null : DateHelper.dateToString(comment.getUpdateDate());
 		this.userName = comment.getUser().getName();
 		this.userSurname = comment.getUser().getSurname();
 	}

@@ -1,10 +1,12 @@
 package services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,7 +20,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Comment;
+import beans.Post;
+import beans.User;
 import dao.CommentDAO;
+import dao.PostDAO;
 import dto.CommentDTO;
 
 @Path("/comments")
@@ -56,12 +61,26 @@ public class CommentService {
 	}
 	
 	@POST
-	@Path("/")
+	@Path("/{postId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Comment newComment(Comment comment) {
+	public CommentDTO newComment(CommentDTO commentDTO, @PathParam("postId") int id, @Context HttpServletRequest request) {
 		CommentDAO dao = CommentDAO.getInstance();
-		return dao.save(comment);
+		
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			return null;
+		}
+		
+		Comment comment = new Comment(commentDTO);
+		comment.setCommentDate(LocalDate.now());
+		comment.setUser(user);
+		
+		Post post = PostDAO.getInstance().findPost(id);
+		comment.setPost(post);
+		post.getComments().add(comment);
+		
+		return new CommentDTO(dao.save(comment));
 	}
 
 	@GET

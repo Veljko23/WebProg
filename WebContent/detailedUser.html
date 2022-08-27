@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>My data</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+	<div id="detailedUser">
+
+		<table>
+			<tr>
+				<td>Username</td>
+				<td>{{user.username}}</td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td>{{user.email}}</td>
+			</tr>
+			<tr>
+				<td>Role</td>
+				<td>{{user.role}}</td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td>{{user.name}}</td>
+			</tr>
+			<tr>
+				<td>Surname</td>
+				<td>{{user.surname}}</td>
+			</tr>
+		</table>
+		<p> Posts </p>
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Posts</th>
+				</tr>
+			</thead>
+
+			<tr v-for="p in userForViewPost">
+				<td v-on:click="clickedPost(p)">{{p.picture}}</td>
+				<td v-on:click="clickedPost(p)">{{p.text}}</td>
+
+			</tr>
+		</table>
+		
+
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/detailedUser.js"></script>
+</body>
+
+</html>

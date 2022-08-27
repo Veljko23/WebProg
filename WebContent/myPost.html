@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<div id="detailedPost">
+	<div id="myPost">
 
 		<table>
 			<tr>
@@ -39,18 +39,15 @@
 			</tr>
 		</table>
 		
-		<button type="button" v-on:click="showComment"> Comment</button>
 		
-		<div v-bind:hidden="writeComment === false">
-			<label>Comment:</label>
-			<input type="text" v-model="comment.text">
-			<button type="button" v-on:click="saveComment"> Save </button>
-		</div>
+		<button type="button" v-on:click="deletePost()"> Delete picture</button>
+
+
 
 	</div>
 	<script src="js/vue.js"></script>
 	<script src="js/axios.js"></script>
-	<script src="app/detailedPost.js"></script>
+	<script src="app/myPost.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="newPost">
+
+		<form id="forma" @submit="newPostCreate" >
+			<table>
+				<tr>
+					<td>Picture</td>
+					<td><input type="text" name="picture" v-model="newPost.picture"></td>
+				</tr>
+				<tr>
+					<td>Text</td>
+					<td><input type="text" name="text" v-model="newPost.text"></td>
+				</tr>
+				
+				<tr>
+					<td><input type="submit" value="Create"></td>
+				</tr>
+			</table>
+
+		</form>
+
+	</div>
+	
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/newPost.js"></script>
+
+</body>
+</html>

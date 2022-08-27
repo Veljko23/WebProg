@@ -19,9 +19,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import beans.Comment;
 import beans.Post;
 import beans.User;
+import dao.PostDAO;
 import dao.UserDAO;
+import dto.CommentDTO;
+import dto.DirectMessageDTO;
 import dto.PostDTO;
 import dto.UserDTO;
 
@@ -197,6 +201,49 @@ public class UserService {
 		
 		return postDTO;
 	}
+	
+	@POST
+	@Path("/setUserForView")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void setUser(UserDTO userDTO, @Context HttpServletRequest request ) {
+		request.getSession().setAttribute("userId", userDTO.getId());
+		
+		return;
+	}
+	
+	@GET
+	@Path("/getUserForView")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public UserDTO getUserForView( @Context HttpServletRequest request) {
+		if(request.getSession().getAttribute("userId") == null) {
+			return null;
+		}
+		int userId = (int)request.getSession().getAttribute("userId");
+		User user = UserDAO.getInstance().findUser(userId);
+		
+		return new UserDTO(user);
+	}
+	
+	@GET
+	@Path("/getUserForViewPost/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<PostDTO> getUserForViewPost(@PathParam("id") int id) {
+		
+		User user = UserDAO.getInstance().findUser(id);
+		
+		ArrayList<PostDTO> dtos = new ArrayList<PostDTO>();
+		for(Post post : user.getPosts()) {
+			dtos.add(new PostDTO(post));
+		}
+		
+		
+		return dtos;
+	}
+	
+	
 	
 //	@DELETE
 //	@Path("/{id}")

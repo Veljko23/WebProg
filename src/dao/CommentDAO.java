@@ -51,6 +51,7 @@ public class CommentDAO {
 		maxId++;
 		comment.setId(maxId);
 		comments.put(maxId, comment);
+		saveToFile();
 		return comment;
 	}
 
@@ -118,6 +119,13 @@ public class CommentDAO {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 	}

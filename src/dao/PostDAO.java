@@ -39,7 +39,7 @@ public class PostDAO {
 	}
 
 	
-	public Post save(Post post) {
+	public Post save(Post post, User loggedUser) {
 		int maxId = -1;
 		for (int id : posts.keySet()) {
 			if (id > maxId) {
@@ -50,6 +50,10 @@ public class PostDAO {
 		maxId++;
 		post.setId(maxId);
 		posts.put(maxId, post);
+		post.setUser(loggedUser);
+		loggedUser.getPosts().add(post);
+		saveToFile();
+		UserDAO.getInstance().saveToFile();
 		return post;
 	}
 
@@ -107,6 +111,13 @@ public class PostDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 	}

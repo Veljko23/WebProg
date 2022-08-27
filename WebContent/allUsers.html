@@ -23,7 +23,7 @@
 			</thead>
 
 			<tr v-for="u in searchedUsers">
-				<td>{{u.username }}</td>
+				<td v-on:click="userDetails(u)">{{u.username }}</td>
 				<td>{{u.email }}</td>
 				<td>{{u.name }}</td>
 				<td>{{u.surname }}</td>

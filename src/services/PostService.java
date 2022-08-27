@@ -17,9 +17,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import beans.Comment;
 import beans.Post;
+import beans.User;
 import dao.PostDAO;
 import dto.CommentDTO;
 import dto.PostDTO;
@@ -57,14 +59,21 @@ public class PostService {
 		
 		return postsDTO;
 	}
-	
+
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Post newPost(Post post) {
+	public Response newPostCreate(PostDTO postDTO, @Context HttpServletRequest request) {
+		Post post = new Post(postDTO);
 		PostDAO dao = PostDAO.getInstance();
-		return dao.save(post);
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		
+		
+		dao.save(post, loggedUser);
+		
+		return Response.status(200).build();
 	}
 
 	@GET
@@ -98,9 +107,9 @@ public class PostService {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Post deletePost(@PathParam("id") int id) {
+	public PostDTO deletePost(@PathParam("id") int id) {
 		PostDAO dao = PostDAO.getInstance();
-		return dao.delete(id);
+		return new PostDTO(dao.delete(id));
 	}
 	
 	@POST

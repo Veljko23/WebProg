@@ -3,6 +3,7 @@ var app = new Vue({
 	data: {
 		currentUser: {},
 		posts:{},
+		newPost: {},
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',
@@ -51,8 +52,21 @@ var app = new Vue({
 		clickedPicture: function(post) {
 			axios.post('rest/posts/setPost', post)
 			.then(response => {
-				window.location.href = "http://localhost:8080/WebProg/detailedPost.html"
+				window.location.href = "http://localhost:8080/WebProg/myPost.html"
 			})
+		},
+		
+		newPostCreate: function(){
+			
+			this.newPost.user = this.currentUser;
+			const [year, month, day] = str.split('-');
+			this.currentUser.birdthDate = day + '.' + month + '.' + year + '.';
+			axios.post('rest/posts/create', this.newPost)
+			.then(response => {alert('Uspesno kreiran post')})
+			.catch(response =>{alert('Greska pri kreiranju posta')})
+				
+			event.preventDefault();
+			return;
 		}
 	}
 });
