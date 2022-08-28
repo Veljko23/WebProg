@@ -13,6 +13,7 @@ public class CommentDTO {
 	private String updateDate;
 	private String userName;
 	private String userSurname;
+	private int userId;
 	
 	public CommentDTO() {}
 
@@ -32,6 +33,7 @@ public class CommentDTO {
 		this.updateDate = (comment.getUpdateDate() == null) ? null : DateHelper.dateToString(comment.getUpdateDate());
 		this.userName = comment.getUser().getName();
 		this.userSurname = comment.getUser().getSurname();
+		this.userId = comment.getUser().getId();
 	}
 
 	public int getId() {
@@ -80,6 +82,14 @@ public class CommentDTO {
 
 	public void setUserSurname(String userSurname) {
 		this.userSurname = userSurname;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 

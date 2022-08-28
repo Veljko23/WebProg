@@ -6,7 +6,8 @@ var app = new Vue({
 		searchSurname: "",
 		searchBirdthBegin: "",
 		searchBirdthEnd:"",
-		searchedUsers:[]
+		searchedUsers:[],
+		sortType:""
 	},
 	mounted() {
 		axios.get('rest/users')
@@ -40,12 +41,35 @@ var app = new Vue({
 					}
 				}
 			},
+			
 			userDetails: function(user) {
 				axios.post('rest/users/setUserForView', user)
 				.then(response => {
 					window.location.href = "http://localhost:8080/WebProg/detailedUser.html"
 				})
 			},
+			
+			sortUsers: function(){
+				if(this.sortType === "Name"){
+	                this.searchedUsers.sort((a, b) => (a.name.localeCompare(b.name)))
+	            }else if(this.sortType === "Surname"){
+	            	this.searchedUsers.sort((a, b) => (a.surname.localeCompare(b.surname)))
+	            }else if(this.sortType === "BirdthDate"){
+	            	this.searchedUsers.sort((a, b) =>{
+	            		
+	            		[daya, montha, yeara] = a.birdthDate.split('.');
+	            		newDatea = yeara + '-' + montha + '-' + daya;
+	            		const userDatea = new Date(newDatea);
+	            		
+	            		[dayb, monthb, yearb] = b.birdthDate.split('.');
+	            		newDateb = yearb + '-' + monthb + '-' + dayb;
+	            		const userDateb = new Date(newDateb);
+	            		
+	            		return (userDatea > userDateb) ? 1 : -1;
+	            	})
+					
+	            }
+			}
 		
 	}
 });

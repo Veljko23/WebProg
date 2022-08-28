@@ -2,6 +2,7 @@ package beans;
 
 import java.time.LocalDate;
 
+import dao.UserDAO;
 import dto.FriendshipRequestDTO;
 import enums.FriendshipRequestStatus;
 import utils.DateHelper;
@@ -21,7 +22,9 @@ public class FriendshipRequest {
 		super();
 		this.id = requestDTO.getId();
 		this.status = requestDTO.getStatus();
-		this.requestDate = DateHelper.stringToDate(requestDTO.getRequestDate());
+		this.requestDate = (requestDTO.getRequestDate() == null ) ? null : DateHelper.stringToDate(requestDTO.getRequestDate());
+		this.sender = UserDAO.getInstance().findUser(requestDTO.getSenderId());
+		this.recepient = UserDAO.getInstance().findUser(requestDTO.getReceiverId());
 	}
 
 	public FriendshipRequest(int id, User sender, User recepient, FriendshipRequestStatus status,

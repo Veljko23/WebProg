@@ -146,7 +146,7 @@ public class PostDAO {
 		ArrayList<Post> userPosts = post.getUser().getPosts();
 		for(Post postIter: userPosts) {
 			if(postIter.getId() == id) {
-				userPosts.add(postIter);
+				userPosts.remove(postIter);
 				break;
 			}
 		}

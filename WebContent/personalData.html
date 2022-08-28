@@ -100,6 +100,20 @@
 			</tr>
 		</table>
 
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Status</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			Requests
+			<tr v-for="r in requests">
+				<td>{{r.status }}</td>
+				<td>{{r.requestDate }}</td>
+			</tr>
+		</table>
+
 
 	</div>
 

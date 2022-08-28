@@ -59,9 +59,12 @@ public class FriendshipRequestService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public FriendshipRequest newFriendshipRequest(FriendshipRequest request) {
+	public FriendshipRequestDTO newFriendshipRequest(FriendshipRequestDTO requestDTO) {
 		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
-		return dao.save(request);
+		
+		FriendshipRequest request = new FriendshipRequest(requestDTO);
+		
+		return new FriendshipRequestDTO(dao.save(request));
 	}
 
 	@GET
@@ -100,5 +103,7 @@ public class FriendshipRequestService {
 		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.delete(id);
 	}
+	
+	
 	
 }

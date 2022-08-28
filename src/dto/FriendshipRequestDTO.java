@@ -3,6 +3,7 @@ package dto;
 
 import beans.FriendshipRequest;
 import beans.User;
+import dao.UserDAO;
 import enums.FriendshipRequestStatus;
 import utils.DateHelper;
 
@@ -11,6 +12,8 @@ public class FriendshipRequestDTO {
 	private int id;
 	private FriendshipRequestStatus status;
 	private String requestDate;
+	private int senderId;
+	private int receiverId;
 	
 	public FriendshipRequestDTO() {}
 
@@ -27,6 +30,8 @@ public class FriendshipRequestDTO {
 		this.id = request.getId();
 		this.status = request.getStatus();
 		this.requestDate = DateHelper.dateToString(request.getRequestDate());
+		this.senderId = request.getSender().getId();
+		this.receiverId = request.getRecepient().getId();
 	}
 
 	public int getId() {
@@ -53,4 +58,21 @@ public class FriendshipRequestDTO {
 		this.requestDate = requestDate;
 	}
 
+	public int getSenderId() {
+		return senderId;
+	}
+
+	public void setSenderId(int senderId) {
+		this.senderId = senderId;
+	}
+
+	public int getReceiverId() {
+		return receiverId;
+	}
+
+	public void setReceiverId(int receiverId) {
+		this.receiverId = receiverId;
+	}
+
+	
 }

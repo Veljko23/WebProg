@@ -36,26 +36,36 @@
 		<br>
 
 		<table id="pretraga">
-			<tr >
+			<tr>
 				<td>Name</td>
-				<td> <input type="text" name="name" v-model="searchName"> </td>
+				<td><input type="text" name="name" v-model="searchName">
+				</td>
 			</tr>
-			<tr >
+			<tr>
 				<td>Surname</td>
-				<td> <input type="text" name="surname" v-model="searchSurname"> </td>
+				<td><input type="text" name="surname" v-model="searchSurname">
+				</td>
 			</tr>
-			<tr >
+			<tr>
 				<td>Birdth Begin</td>
-				<td> <input type="date"  v-model="searchBirdthBegin"> </td>
+				<td><input type="date" v-model="searchBirdthBegin"></td>
 				<td>Birdth End</td>
 				<td><input type="date" v-model="searchBirdthEnd"></td>
 			</tr>
-			<tr >
-				<td><button type="button" v-on:click="search()"> Search </button></td>
+			<tr>
+				<td><button type="button" v-on:click="search()">
+						Search</button></td>
 			</tr>
 		</table>
-		<br>
-
+		
+		<br> 
+		
+		<select v-model="sortType">
+			<option value="Name">Name</option>
+			<option value="Surname">Surname</option>
+			<option value="BirdthDate">BirthDate</option>
+		</select>
+		<button type="button" v-on:click="sortUsers"> Sort </button>
 
 	</div>
 	<script src="js/vue.js"></script>

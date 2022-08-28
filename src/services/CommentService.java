@@ -114,9 +114,9 @@ public class CommentService {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comment deleteComment(@PathParam("id") int id) {
+	public CommentDTO deleteComment(@PathParam("id") int id) {
 		CommentDAO dao = CommentDAO.getInstance();
-		return dao.delete(id);
+		return new CommentDTO(dao.delete(id));
 	}
 	
 }

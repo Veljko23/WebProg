@@ -2,7 +2,8 @@ var app = new Vue({
 	el: '#detailedUser',
 	data: {
 		user: {},
-		userForViewPost: {}
+		userForViewPost: {},
+		currentUser: {}
 	},
 	mounted() {
 		axios.get('rest/users/getUserForView')
@@ -13,6 +14,12 @@ var app = new Vue({
 					this.userForViewPost = response.data;
 				})
 			})
+		axios.get('rest/users/currentUser')
+				.then(response => {
+					this.currentUser = response.data;
+					[day, month, year] = this.currentUser.birdthDate.split('.');
+					this.currentUser.birdthDate = year + '-' + month + '-' + day;
+				})
 	},
 	methods: {
 		clickedPost: function(post) {
@@ -20,6 +27,13 @@ var app = new Vue({
 			.then(response => {
 				window.location.href = "http://localhost:8080/WebProg/detailedPost.html"
 			})
+		},
+		request: function() {
+			friendRequest = {senderId: this.currentUser.id, receiverId: this.user.id}
+			axios.post('rest/requests/', friendRequest)
+				.then(response => {
+					alert('Request successfully sent');
+				})
 		}
 
 	}

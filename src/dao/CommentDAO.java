@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -162,6 +163,15 @@ public class CommentDAO {
 	}
 
 	public Comment delete(int id) {
+		Comment comment = comments.get(id);
+		ArrayList<Comment> userComments = comment.getPost().getComments();
+		for(Comment commentIter: userComments) {
+			if(commentIter.getId() == id) {
+				userComments.remove(commentIter);
+				break;
+			}
+		}
+		
 		return comments.remove(id);
 	}
 }

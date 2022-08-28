@@ -4,6 +4,7 @@ var app = new Vue({
 		currentUser: {},
 		posts:{},
 		newPost: {},
+		requests:[],
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',
@@ -19,6 +20,10 @@ var app = new Vue({
 		axios.get('rest/users/currentUserPosts')
 				.then(response => {
 					this.posts = response.data;
+				})
+		axios.get('rest/users/currentUserRequests')
+				.then(response => {
+					this.requests = response.data;
 				})
 	},
 	methods: {
@@ -54,19 +59,7 @@ var app = new Vue({
 			.then(response => {
 				window.location.href = "http://localhost:8080/WebProg/myPost.html"
 			})
-		},
-		
-		newPostCreate: function(){
-			
-			this.newPost.user = this.currentUser;
-			const [year, month, day] = str.split('-');
-			this.currentUser.birdthDate = day + '.' + month + '.' + year + '.';
-			axios.post('rest/posts/create', this.newPost)
-			.then(response => {alert('Uspesno kreiran post')})
-			.catch(response =>{alert('Greska pri kreiranju posta')})
-				
-			event.preventDefault();
-			return;
 		}
+		
 	}
 });

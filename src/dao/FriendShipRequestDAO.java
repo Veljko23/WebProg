@@ -41,6 +41,11 @@ public class FriendShipRequestDAO {
 
 	
 	public FriendshipRequest save(FriendshipRequest friendshipRequest) {
+		
+		friendshipRequest.setRequestDate(LocalDate.now());
+		friendshipRequest.setStatus(FriendshipRequestStatus.ONWAIT);
+		friendshipRequest.getRecepient().getRequests().add(friendshipRequest);
+		
 		int maxId = -1;
 		for (int id : requests.keySet()) {
 			if (id > maxId) {
@@ -51,6 +56,7 @@ public class FriendShipRequestDAO {
 		maxId++;
 		friendshipRequest.setId(maxId);
 		requests.put(maxId, friendshipRequest);
+		saveToFile();
 		return friendshipRequest;
 	}
 
@@ -111,6 +117,13 @@ public class FriendShipRequestDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 	}

@@ -20,12 +20,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import beans.Comment;
+import beans.FriendshipRequest;
 import beans.Post;
 import beans.User;
 import dao.PostDAO;
 import dao.UserDAO;
 import dto.CommentDTO;
 import dto.DirectMessageDTO;
+import dto.FriendshipRequestDTO;
 import dto.PostDTO;
 import dto.UserDTO;
 
@@ -243,6 +245,23 @@ public class UserService {
 		return dtos;
 	}
 	
+	
+	@GET
+	@Path("/currentUserRequests")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<FriendshipRequestDTO> allRequests(@Context HttpServletRequest request){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		
+		ArrayList<FriendshipRequestDTO> requestsDTO = new ArrayList<FriendshipRequestDTO>();
+		
+		for(FriendshipRequest req: user.getRequests()) {
+			requestsDTO.add(new FriendshipRequestDTO(req));
+		}
+		
+		return requestsDTO;
+	}
 	
 	
 //	@DELETE
