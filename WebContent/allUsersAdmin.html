@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="allUsersAdmin">
+
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Username</th>
+					<th>Email</th>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Birdth Date</th>
+					<th>Gender</th>
+					<th>Role</th>
+
+				</tr>
+			</thead>
+
+			<tr v-for="u in searchedUsers">
+				<td v-on:click="userDetails(u)">{{u.username }}</td>
+				<td>{{u.email }}</td>
+				<td>{{u.name }}</td>
+				<td>{{u.surname }}</td>
+				<td>{{u.birdthDate }}</td>
+				<td>{{u.gender }}</td>
+				<td>{{u.role }}</td>
+				<td><div v-bind:hidden="u.privateProfile === true || u.id === currentUser.id">
+							<button type="button" v-on:click="blockUser(u)"> Block user </button>
+					</div>
+					<div v-bind:hidden="u.privateProfile === false">
+							<button type="button" v-on:click="unblockUser(u)"> Unblock user </button>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<br>
+
+		<table id="pretraga">
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="name" v-model="searchName">
+				</td>
+			</tr>
+			<tr>
+				<td>Surname</td>
+				<td><input type="text" name="surname" v-model="searchSurname">
+				</td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="email" v-model="searchEmail">
+				</td>
+			</tr>
+			<tr>
+				<td><button type="button" v-on:click="search()">
+						Search</button></td>
+			</tr>
+		</table>
+		
+		<br> 
+		
+		
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/allUsersAdmin.js"></script>
+
+
+</body>
+</html>

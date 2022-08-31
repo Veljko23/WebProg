@@ -4,7 +4,7 @@ var app = new Vue({
 		currentUser: {},
 		posts:{},
 		newPost: {},
-		requests:[],
+		requests:{},
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',

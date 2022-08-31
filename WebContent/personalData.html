@@ -103,14 +103,16 @@
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
-					<th>Status</th>
+					<th>Sender</th>
 					<th>Date</th>
+					<th>Status</th>
 				</tr>
 			</thead>
 			Requests
 			<tr v-for="r in requests">
-				<td>{{r.status }}</td>
+				<td>{{r.senderName }}</td>
 				<td>{{r.requestDate }}</td>
+				<td>{{r.status}}</td>
 			</tr>
 		</table>
 

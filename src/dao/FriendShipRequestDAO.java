@@ -7,12 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import beans.FriendshipRequest;
 import beans.User;
+import dto.FriendshipRequestDTO;
 import enums.FriendshipRequestStatus;
 import services.ProjectInit;
 import utils.DateHelper;
@@ -34,6 +36,7 @@ public class FriendShipRequestDAO {
 		Collection<FriendshipRequest> allFriendshipRequest = requests.values();
 		return allFriendshipRequest;
 	}
+	
 	
 	public FriendshipRequest findFriendshipRequest(int id) {
 		return requests.containsKey(id) ? requests.get(id) : null;

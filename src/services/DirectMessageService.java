@@ -1,10 +1,12 @@
 package services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,7 +20,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.DirectMessage;
+import beans.User;
 import dao.DirectMessageDAO;
+import dao.UserDAO;
 import dto.DirectMessageDTO;
 
 @Path("/messages")
@@ -56,12 +60,26 @@ public class DirectMessageService {
 	}
 	
 	@POST
-	@Path("/")
+	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public DirectMessage newDirectMessage(DirectMessage message) {
+	public DirectMessageDTO newDirectMessage(DirectMessageDTO messageDTO, @PathParam("userId") int id, @Context HttpServletRequest request) {
+		
 		DirectMessageDAO dao = DirectMessageDAO.getInstance();
-		return dao.save(message);
+		
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
+			return null;
+		}
+		
+		DirectMessage message = new DirectMessage(messageDTO);
+		message.setMessageDate(LocalDate.now());
+		message.setSender(user);
+		
+		User u = UserDAO.getInstance().findUser(id);
+		message.setReceiver(u);
+		
+		return new DirectMessageDTO(dao.save(message));
 	}
 
 	@GET

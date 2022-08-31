@@ -40,6 +40,7 @@ public class DirectMessageDAO {
 
 	
 	public DirectMessage save(DirectMessage message) {
+		
 		int maxId = -1;
 		for (int id : messages.keySet()) {
 			if (id > maxId) {
@@ -50,6 +51,7 @@ public class DirectMessageDAO {
 		maxId++;
 		message.setId(maxId);
 		messages.put(maxId, message);
+		saveToFile();
 		return message;
 	}
 
@@ -110,6 +112,13 @@ public class DirectMessageDAO {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
 		}
 
 	}

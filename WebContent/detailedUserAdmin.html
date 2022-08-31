@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<div id="detailedUser">
+	<div id="detailedUserAdmin">
 
 		<table>
 			<tr>
@@ -44,7 +44,7 @@
 			<tr v-for="p in userForViewPost">
 				<td v-on:click="clickedPost(p)">{{p.picture}}</td>
 				<td v-on:click="clickedPost(p)">{{p.text}}</td>
-
+				<td><button type="button" v-on:click="deletePost(p)">Delete</button></td>
 			</tr>
 		</table>
 		<br>
@@ -58,10 +58,20 @@
 		<div v-bind:hidden="user.privateProfile === false">
 			<button type="button" v-on:click="unblockUser()">Unblock user</button>
 		</div>
+		
+		
+		<button type="button" v-on:click="showMessageButton()"> Message </button>
+		
+		<div v-bind:hidden="messageForSend === false">
+		<label>Message</label>
+		<td><textarea v-model="message.messageContext"></textarea></td>
+			<button type="button" v-on:click="messageSend()">Send</button>
+		</div>
+		
 	</div>
 	<script src="js/vue.js"></script>
 	<script src="js/axios.js"></script>
-	<script src="app/detailedUser.js"></script>
+	<script src="app/detailedUserAdmin.js"></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@ public class DirectMessage {
 	public DirectMessage(DirectMessageDTO messageDTO) {
 		this.id = messageDTO.getId();
 		this.messageContext = messageDTO.getMessageContext();
-		this.messageDate = DateHelper.stringToDate(messageDTO.getMessageDate());
+		this.messageDate = (messageDTO.getMessageDate() == null) ? null : DateHelper.stringToDate(messageDTO.getMessageDate());
 	}
 
 

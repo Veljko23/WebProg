@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>My data</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+	<div id="detailedPostAdmin">
+
+		<table>
+			<tr>
+				<td>Picture</td>
+				<td>{{post.picture}}</td>
+			</tr>
+			<tr>
+				<td>Text</td>
+				<td>{{post.text}}</td>
+			</tr>
+			
+		</table>
+		<p> Comments </p>
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Comments</th>
+				</tr>
+			</thead>
+
+			<tr v-for="c in commentsForPost">
+				<td>{{c.userName}}</td>
+				<td>{{c.userSurname}}</td>
+				<td>{{c.text}}</td>
+				<td>{{c.commentDate}}</td>
+				<td><div v-bind:hidden="c.userId !== currentUser.id">
+			<button type="button" v-on:click="deleteCommentUser(c)"> Delete </button>
+		</div></td>
+			</tr>
+			
+		</table>
+		
+		<button type="button" v-on:click="showComment"> Comment</button>
+		
+		<div v-bind:hidden="writeComment === false">
+			<label>Comment:</label>
+			<input type="text" v-model="comment.text">
+			<button type="button" v-on:click="saveComment"> Save </button>
+		</div>
+		
+		<br><br>
+		
+		<button type="button" v-on:click="deletePost()"> Delete </button>
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/detailedPostAdmin.js"></script>
+</body>
+
+</html>

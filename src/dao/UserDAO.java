@@ -47,12 +47,15 @@ public class UserDAO {
 		}
 		return false;
 	}
+
 	
 	public User findByUsernamePassword(String username, String password) {
 		for(User user : users.values()) {
 			if(user.getUsername().equals(username)) {
 				if(user.getPassword().equals(password)) {
-					return user;
+					
+						return user;
+						
 				}
 			}
 		}
@@ -87,6 +90,7 @@ public class UserDAO {
 		}
 		return null;
 	}
+
 
 	public User findUser(int id) {
 		return users.containsKey(id) ? users.get(id) : null;
@@ -319,6 +323,19 @@ public class UserDAO {
 		oldUser.setSurname(newUser.getSurname());
 		oldUser.setBirdthDate(newUser.getBirdthDate());
 		oldUser.setGender(newUser.getGender());
+		saveToFile();
+		return oldUser;
+	}
+	
+	public User blockUser(User newUser) {
+		User oldUser = users.get(newUser.getId());
+		oldUser.setPrivateProfile(newUser.isPrivateProfile());
+		saveToFile();
+		return oldUser;
+	}
+	public User unblockUser(User newUser) {
+		User oldUser = users.get(newUser.getId());
+		oldUser.setPrivateProfile(newUser.isPrivateProfile());
 		saveToFile();
 		return oldUser;
 	}

@@ -40,7 +40,7 @@ public class User {
 		this.email = userDTO.getEmail();
 		this.name = userDTO.getName();
 		this.surname = userDTO.getSurname();
-		this.birdthDate = DateHelper.stringToDate(userDTO.getBirdthDate());
+		this.birdthDate = (userDTO.getBirdthDate() == null) ? null : DateHelper.stringToDate(userDTO.getBirdthDate());
 		this.gender = userDTO.getGender();
 		this.role = userDTO.getRole();
 		this.picture = userDTO.getPicture();

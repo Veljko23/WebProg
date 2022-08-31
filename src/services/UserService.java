@@ -30,6 +30,7 @@ import dto.DirectMessageDTO;
 import dto.FriendshipRequestDTO;
 import dto.PostDTO;
 import dto.UserDTO;
+import utils.DateHelper;
 
 @Path("/users")
 public class UserService {
@@ -124,6 +125,26 @@ public class UserService {
 		return new UserDTO(dao.change(user));
 	}
 	
+	@PUT
+	@Path("/blockUser/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserDTO blockUser(UserDTO userDTO, @PathParam("id") String id) {
+		User user = new User(userDTO);
+		UserDAO dao = UserDAO.getInstance();
+		return new UserDTO(dao.blockUser(user));
+	}
+	
+	@PUT
+	@Path("/unblockUser/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserDTO unblockUser(UserDTO userDTO, @PathParam("id") String id) {
+		User user = new User(userDTO);
+		UserDAO dao = UserDAO.getInstance();
+		return new UserDTO(dao.unblockUser(user));
+	}
+	
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -142,6 +163,8 @@ public class UserService {
 		if (loggedUser == null) {
 			return Response.status(400).entity("Invalid username and/or password").build();
 		}
+		if(loggedUser.isPrivateProfile())
+			return Response.status(400).entity("You are blocked!").build();
 		request.getSession().setAttribute("user", loggedUser);
 		return Response.status(200).build();
 	}
@@ -213,6 +236,7 @@ public class UserService {
 		
 		return;
 	}
+	
 	
 	@GET
 	@Path("/getUserForView")

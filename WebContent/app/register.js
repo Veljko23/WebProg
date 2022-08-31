@@ -28,6 +28,7 @@ var app = new Vue({
 					}
 			
 			this.newUser.role = 'USER';
+			this.newUser.privateProfile = false;
 			const str = this.newUser.birdthDate;
 			
 			if(str.split('-').length < 2){

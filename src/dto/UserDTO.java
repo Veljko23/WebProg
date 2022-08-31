@@ -51,13 +51,12 @@ public class UserDTO {
 		this.email = user.getEmail();
 		this.name = user.getName();
 		this.surname = user.getSurname();
-		this.birdthDate = DateHelper.dateToString(user.getBirdthDate());
+		this.birdthDate = (user.getBirdthDate() == null) ? null : DateHelper.dateToString(user.getBirdthDate());
 		this.gender = user.getGender();
 		this.role = user.getRole();
 		this.picture = user.getPicture();
 		this.pictures = user.getPictures();
 		this.privateProfile = user.isPrivateProfile();
-		
 	}
 
 	public int getId() {
@@ -155,6 +154,6 @@ public class UserDTO {
 	public void setPrivateProfile(boolean privateProfile) {
 		this.privateProfile = privateProfile;
 	}
-	
+
 	
 }

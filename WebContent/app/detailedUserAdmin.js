@@ -1,9 +1,11 @@
 var app = new Vue({
-	el: '#detailedUser',
+	el: '#detailedUserAdmin',
 	data: {
 		user: {},
 		userForViewPost: {},
-		currentUser: {}
+		currentUser: {},
+		message:{},
+		messageForSend: false
 	},
 	mounted() {
 		axios.get('rest/users/getUserForView')
@@ -25,7 +27,7 @@ var app = new Vue({
 		clickedPost: function(post) {
 			axios.post('rest/posts/setPost', post)
 			.then(response => {
-				window.location.href = "http://localhost:8080/WebProg/detailedPost.html"
+				window.location.href = "http://localhost:8080/WebProg/detailedPostAdmin.html"
 			})
 		},
 		request: function() {
@@ -55,6 +57,25 @@ var app = new Vue({
 			event.preventDefault();
 			return;
 		},
+		deletePost: function(selectedPost){
+			axios.delete('rest/posts/' + selectedPost.id)
+			.then(response => {
+				alert('Post deleted succesfully ')
+				window.location.href = "http://localhost:8080/WebProg/detailedUserAdmin.html"
+			})
+			.catch('Greska u brisanju!')
+			
+		},
+		showMessageButton: function(){
+			this.messageForSend = true;
+		},
+		messageSend: function() {
+			message = {senderId: this.currentUser.id, receiverId: this.user.id, senderName:this.currentUser.name}
+			axios.post('rest/messages/' + this.user.id, this.message)
+				.then(response => {
+					alert('Message successfully sent');
+				})
+		}
 		
 
 	}
