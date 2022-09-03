@@ -23,6 +23,7 @@ import beans.Comment;
 import beans.FriendshipRequest;
 import beans.Post;
 import beans.User;
+import dao.FriendShipRequestDAO;
 import dao.PostDAO;
 import dao.UserDAO;
 import dto.CommentDTO;
@@ -30,6 +31,7 @@ import dto.DirectMessageDTO;
 import dto.FriendshipRequestDTO;
 import dto.PostDTO;
 import dto.UserDTO;
+import enums.FriendshipRequestStatus;
 import utils.DateHelper;
 
 @Path("/users")
@@ -281,10 +283,86 @@ public class UserService {
 		ArrayList<FriendshipRequestDTO> requestsDTO = new ArrayList<FriendshipRequestDTO>();
 		
 		for(FriendshipRequest req: user.getRequests()) {
-			requestsDTO.add(new FriendshipRequestDTO(req));
-		}
+			if(req.getStatus() == FriendshipRequestStatus.ONWAIT) {
+				requestsDTO.add(new FriendshipRequestDTO(req));
+			}
+		}	
 		
 		return requestsDTO;
+	}
+	
+	@GET
+	@Path("/currentUserFriends")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<UserDTO> allFriends(@Context HttpServletRequest request){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		
+		ArrayList<UserDTO> friends = new ArrayList<UserDTO>();
+		
+		for(User u: user.getFriends()) {
+				friends.add(new UserDTO(u));
+		}	
+		
+		return friends;
+	}
+	
+	@DELETE
+	@Path("/removeFriend/{idFriend1}/{idFriend2}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserDTO removeFriend(@Context HttpServletRequest request, @PathParam ("idFriend1") int user1Id, @PathParam ("idFriend2") int user2Id){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		UserDAO dao = UserDAO.getInstance();
+		
+		if(dao.removeFriend(user1Id, user2Id) == null) {
+			return null;
+		}
+		
+		return new UserDTO(dao.removeFriend(user1Id, user2Id));
+	}
+	
+	@GET
+	@Path("/existFriend/{idFriend1}/{idFriend2}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean existFriend(@Context HttpServletRequest request, @PathParam ("idFriend1") int user1Id, @PathParam ("idFriend2") int user2Id){
+		User user1 =  (User) request.getSession().getAttribute("user");
+		if(user1 == null)
+			return false;
+		
+		User user2 = UserDAO.getInstance().findUser(user2Id);
+		
+		if(user1.getFriends().contains(user2)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@GET
+	@Path("/mutualFriends/{id1}/{id2}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<UserDTO> mutualFriends(@Context HttpServletRequest request, @PathParam ("id1") int user1Id, @PathParam ("id2") int user2Id){
+		User user1 =  (User) request.getSession().getAttribute("user");
+		if(user1 == null)
+			return null;
+		
+		//UserDAO dao = UserDAO.getInstance();
+		User user2 = UserDAO.getInstance().findUser(user2Id);
+		
+		ArrayList<UserDTO> mutualFriends = new ArrayList<UserDTO>();
+		
+		for(User u1: user1.getFriends()) {
+			for(User u2: user2.getFriends()) {
+				if(u1.getId() == u2.getId()) {
+					mutualFriends.add(new UserDTO(u1));
+				}
+			}
+		}
+			
+		return mutualFriends;
 	}
 	
 	

@@ -88,7 +88,7 @@ public class UserDAO {
 				return u;
 			}
 		}
-		return null;
+		return user1;
 	}
 
 
@@ -343,4 +343,5 @@ public class UserDAO {
 	public User delete(int id) {
 		return users.remove(id);
 	}
+	
 }

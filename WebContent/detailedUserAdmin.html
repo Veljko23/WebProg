@@ -44,7 +44,6 @@
 			<tr v-for="p in userForViewPost">
 				<td v-on:click="clickedPost(p)">{{p.picture}}</td>
 				<td v-on:click="clickedPost(p)">{{p.text}}</td>
-				<td><button type="button" v-on:click="deletePost(p)">Delete</button></td>
 			</tr>
 		</table>
 		<br>

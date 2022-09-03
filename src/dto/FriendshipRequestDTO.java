@@ -15,6 +15,7 @@ public class FriendshipRequestDTO {
 	private int senderId;
 	private int receiverId;
 	private String senderName;
+	private String senderSurname;
 	
 	public FriendshipRequestDTO() {}
 
@@ -34,6 +35,7 @@ public class FriendshipRequestDTO {
 		this.senderId = request.getSender().getId();
 		this.receiverId = request.getRecepient().getId();
 		this.senderName = request.getSender().getName();
+		this.senderSurname = request.getSender().getUsername();
 	}
 
 	public int getId() {
@@ -84,5 +86,12 @@ public class FriendshipRequestDTO {
 		this.senderName = senderName;
 	}
 
-	
+	public String getSenderSurname() {
+		return senderSurname;
+	}
+
+	public void setSenderSurname(String senderSurname) {
+		this.senderSurname = senderSurname;
+	}
+
 }

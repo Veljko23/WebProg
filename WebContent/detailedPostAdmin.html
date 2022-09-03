@@ -51,8 +51,14 @@
 		</div>
 		
 		<br><br>
+		<button type="button" v-on:click="showDeletePost()"> Delete post</button>
+		<div v-bind:hidden="showDeleteButton === false">
+			<label>Message:</label>
+			<textarea type="text" v-model="message.messageContext"></textarea>
+			<button type="button" v-on:click="deletePost()"> Delete </button>
+		</div>
 		
-		<button type="button" v-on:click="deletePost()"> Delete </button>
+		
 
 	</div>
 	<script src="js/vue.js"></script>

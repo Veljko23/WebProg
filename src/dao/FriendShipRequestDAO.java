@@ -37,7 +37,6 @@ public class FriendShipRequestDAO {
 		return allFriendshipRequest;
 	}
 	
-	
 	public FriendshipRequest findFriendshipRequest(int id) {
 		return requests.containsKey(id) ? requests.get(id) : null;
 	}
@@ -157,4 +156,15 @@ public class FriendShipRequestDAO {
 	public FriendshipRequest delete(int id) {
 		return requests.remove(id);
 	}
+	
+	
+	public FriendshipRequest existRequest(int senderId, int receiverId) {
+		for(FriendshipRequest request : requests.values()) {
+			if(request.getSender().getId() == senderId && request.getRecepient().getId() == receiverId) {
+				return request;
+			}
+		}
+		return null;
+	}
+
 }

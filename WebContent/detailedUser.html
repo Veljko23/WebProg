@@ -47,9 +47,22 @@
 
 			</tr>
 		</table>
+		
 		<br>
 
+		<div v-bind:hidden="userRequest !== '' || existFriend === true">
 		<button type="button" v-on:click="request()">Send request</button>
+		</div>
+		
+		<div v-bind:hidden="userRequest === ''">
+		<p>Request already sent</p>
+		</div>
+		
+		<div v-bind:hidden="existFriend === false">
+		<p>You are friends</p>
+		<br><br>
+		<button type="button" v-on:click="removeFriend()">Remove friend</button>
+		</div>
 
 		<br> <br>
 		<div v-bind:hidden="user.privateProfile === true">
@@ -58,6 +71,30 @@
 		<div v-bind:hidden="user.privateProfile === false">
 			<button type="button" v-on:click="unblockUser()">Unblock user</button>
 		</div>
+		
+		<button type="button" v-on:click="showMessageButton()"> Message </button>
+		
+		<div v-bind:hidden="messageForSend === false">
+		<label>Message</label>
+		<td><textarea v-model="message.messageContext"></textarea></td>
+			<button type="button" v-on:click="messageSend()">Send</button>
+		</div>
+		
+		<table border="1" id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Mutual friends</th>
+				</tr>
+			</thead>
+
+			<tr v-for="f in mutualFriends">
+				<td>{{f.name}}</td>
+				<td>{{f.surname}}</td>
+				<td><button type="button" v-on:click="userDetails(f)">Profile</button></td>
+			</tr>
+		</table>
+		
+		
 	</div>
 	<script src="js/vue.js"></script>
 	<script src="js/axios.js"></script>

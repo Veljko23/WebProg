@@ -39,7 +39,11 @@ var app = new Vue({
 			userDetails: function(user) {
 				axios.post('rest/users/setUserForView', user)
 				.then(response => {
-					window.location.href = "http://localhost:8080/WebProg/detailedUserAdmin.html"
+					if(this.currentUser.id === user.id){
+						window.location.href = "http://localhost:8080/WebProg/personalData.html"
+					}else{
+						window.location.href = "http://localhost:8080/WebProg/detailedUserAdmin.html"
+					}
 				})
 			},
 			blockUser: function(selectedUser){

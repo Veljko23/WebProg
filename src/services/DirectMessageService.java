@@ -24,6 +24,7 @@ import beans.User;
 import dao.DirectMessageDAO;
 import dao.UserDAO;
 import dto.DirectMessageDTO;
+import enums.Role;
 
 @Path("/messages")
 public class DirectMessageService {
@@ -76,6 +77,10 @@ public class DirectMessageService {
 		message.setMessageDate(LocalDate.now());
 		message.setSender(user);
 		
+		if(message.getSender().getRole() == Role.ADMINISTRATOR) {
+			message.setMessageContext("|ADMIN " + message.getSender().getName() + "|:" + message.getMessageContext());
+		}
+		
 		User u = UserDAO.getInstance().findUser(id);
 		message.setReceiver(u);
 		
@@ -116,6 +121,22 @@ public class DirectMessageService {
 	public DirectMessage deleteDirectMessage(@PathParam("id") int id) {
 		DirectMessageDAO dao = DirectMessageDAO.getInstance();
 		return dao.delete(id);
+	}
+	
+	@GET
+	@Path("/{senderId}/{receiverId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public DirectMessageDTO senderMessage(DirectMessageDTO messageDTO, @PathParam("senderId") int senderId, @PathParam("receiverId") int receiverId, @Context HttpServletRequest request) {
+		
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
+		
+		User sender = UserDAO.getInstance().findUser(senderId);
+		User receiver = UserDAO.getInstance().findUser(receiverId);
+		
+		
+		
+		return null;
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,8 +19,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.FriendshipRequest;
+import beans.User;
 import dao.FriendShipRequestDAO;
+import dao.UserDAO;
 import dto.FriendshipRequestDTO;
+import enums.FriendshipRequestStatus;
 
 @Path("/requests")
 public class FriendshipRequestService {
@@ -102,6 +106,59 @@ public class FriendshipRequestService {
 	public FriendshipRequest deleteFriendshipRequest(@PathParam("id") int id) {
 		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
 		return dao.delete(id);
+	}
+	
+	@GET
+	@Path("/request/{idSender}/{idReceiver}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public FriendshipRequestDTO existRequests(@Context HttpServletRequest request, @PathParam ("idSender") int senderId, @PathParam ("idReceiver") int receiverId){
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
+		
+		if(dao.existRequest(senderId, receiverId) == null) {
+			return null;
+		}
+		
+		return new FriendshipRequestDTO(dao.existRequest(senderId, receiverId));
+	}
+	
+	
+	@GET
+	@Path("/acceptRequest/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void acceptRequest(@PathParam ("id") int id){
+		
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
+		FriendshipRequest friendshipRequest = dao.findFriendshipRequest(id);
+		
+		friendshipRequest.setStatus(FriendshipRequestStatus.ACCEPTED);
+		User sender = friendshipRequest.getSender();
+		User receiver = friendshipRequest.getRecepient();
+		
+		sender.getFriends().add(receiver);
+		receiver.getFriends().add(sender);
+		UserDAO.getInstance().saveToFile();
+		
+		dao.saveToFile();
+		return;
+		
+	}
+	
+	@GET
+	@Path("/denyRequest/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void denyRequest(@PathParam ("id") int id){
+		
+		FriendShipRequestDAO dao = FriendShipRequestDAO.getInstance();
+		FriendshipRequest friendshipRequest = dao.findFriendshipRequest(id);
+		
+		friendshipRequest.setStatus(FriendshipRequestStatus.DENIED);
+		
+		dao.saveToFile();
+		return;
+		
 	}
 	
 	

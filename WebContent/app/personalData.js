@@ -4,7 +4,8 @@ var app = new Vue({
 		currentUser: {},
 		posts:{},
 		newPost: {},
-		requests:{},
+		requests:[],
+		friends: [],
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',
@@ -24,6 +25,10 @@ var app = new Vue({
 		axios.get('rest/users/currentUserRequests')
 				.then(response => {
 					this.requests = response.data;
+				})
+		axios.get('rest/users/currentUserFriends')
+				.then(response => {
+					this.friends = response.data;
 				})
 	},
 	methods: {
@@ -59,6 +64,34 @@ var app = new Vue({
 			.then(response => {
 				window.location.href = "http://localhost:8080/WebProg/myPost.html"
 			})
+		},
+		acceptRequest: function(request){
+			axios.get('rest/requests/acceptRequest/'+ request.id)
+			.then(response => {
+				this.requests = this.requests.filter((p) => p.id !== request.id)
+			})
+		},
+		denyRequest: function(request){
+			axios.get('rest/requests/denyRequest/'+ request.id)
+			.then(response => {
+				this.requests = this.requests.filter((p) => p.id !== request.id)
+			})
+		},
+		userDetails: function(user) {
+			axios.post('rest/users/setUserForView', user)
+			.then(response => {
+				window.location.href = "http://localhost:8080/WebProg/detailedUser.html"
+			})
+		},
+		removeFriend: function(selectedFriend){
+			axios.delete('rest/users/removeFriend/' + this.currentUser.id + '/' + selectedFriend.id)
+			.then(response => {
+				alert('Uklonjen prijatelj!')
+				window.location.href = "http://localhost:8080/WebProg/personalData.html"
+			})
+		},
+		createNewPost: function(){
+			window.location.href = "http://localhost:8080/WebProg/newPost.html"
 		}
 		
 	}
