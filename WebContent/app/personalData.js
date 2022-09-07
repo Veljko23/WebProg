@@ -3,6 +3,7 @@ var app = new Vue({
 	data: {
 		currentUser: {},
 		posts:{},
+		messages:{},
 		newPost: {},
 		requests:[],
 		friends: [],
@@ -17,6 +18,7 @@ var app = new Vue({
 					this.currentUser = response.data;
 					[day, month, year] = this.currentUser.birdthDate.split('.');
 					this.currentUser.birdthDate = year + '-' + month + '-' + day;
+					
 				})
 		axios.get('rest/users/currentUserPosts')
 				.then(response => {

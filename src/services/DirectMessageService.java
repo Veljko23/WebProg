@@ -24,6 +24,7 @@ import beans.User;
 import dao.DirectMessageDAO;
 import dao.UserDAO;
 import dto.DirectMessageDTO;
+import dto.UserDTO;
 import enums.Role;
 
 @Path("/messages")
@@ -124,19 +125,94 @@ public class DirectMessageService {
 	}
 	
 	@GET
-	@Path("/{senderId}/{receiverId}")
+	@Path("/chat/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public DirectMessageDTO senderMessage(DirectMessageDTO messageDTO, @PathParam("senderId") int senderId, @PathParam("receiverId") int receiverId, @Context HttpServletRequest request) {
+	public ArrayList<DirectMessageDTO> senderMessage(@PathParam("id") int id, @Context HttpServletRequest request) {
 		
+		User user =  (User) request.getSession().getAttribute("user");
+		if(user == null)
+			return null;
+		
+		Collection<DirectMessage> messages = DirectMessageDAO.getInstance().findAll();
+		ArrayList<DirectMessageDTO> userMessages = new ArrayList<DirectMessageDTO>();
+		for(DirectMessage m: messages) {
+			if(m.getSender().getId() == id || m.getReceiver().getId() == id) {
+				userMessages.add(new DirectMessageDTO(m));
+			}
+		}		
+		
+		return userMessages;
+	}
+	
+	@GET
+    @Path("/getAllUserMessageFriends")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ArrayList<UserDTO> getAllUserMessageFriends(@Context HttpServletRequest request) {
+
+        DirectMessageDAO dao = DirectMessageDAO.getInstance();
+
+        User user = (User) request.getSession().getAttribute("user");
+        if(user == null) {
+            return null;
+        }
+        ArrayList<User> friends = dao.getAllUserMessageFriends(user.getId());
+
+        ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+        for(User userIter : friends) {
+            usersDTO.add(new UserDTO(userIter));
+        }
+        return usersDTO;
+    }
+	
+	@GET
+	@Path("/chat")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<DirectMessageDTO> chat(@Context HttpServletRequest request) {
 		DirectMessageDAO dao = DirectMessageDAO.getInstance();
+		if(request.getSession().getAttribute("userId") == null || request.getSession().getAttribute("user") == null) {
+			return null;
+		}
+		int userId = (int)request.getSession().getAttribute("userId");
+		User user = UserDAO.getInstance().findUser(userId);
 		
-		User sender = UserDAO.getInstance().findUser(senderId);
-		User receiver = UserDAO.getInstance().findUser(receiverId);
+		User loggedUser = (User) request.getSession().getAttribute("user");
+		ArrayList<DirectMessage> messagesFound = dao.getChat(user.getId(), loggedUser.getId());
+		ArrayList<DirectMessageDTO> messagesDTO = new ArrayList<DirectMessageDTO>();
+		for(DirectMessage message : messagesFound) {
+			messagesDTO.add(new DirectMessageDTO(message));
+		}
+		
+		return messagesDTO;
+	}
+	
+	@POST
+	@Path("/sendMessage")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public DirectMessageDTO sendMessage(@Context HttpServletRequest request, DirectMessageDTO messageDTO) {
+		DirectMessageDAO dao = DirectMessageDAO.getInstance();
+		if(request.getSession().getAttribute("userId") == null || request.getSession().getAttribute("user") == null) {
+			return null;
+		}
+		int userId = (int)request.getSession().getAttribute("userId");
+		User user = UserDAO.getInstance().findUser(userId);
+		
+		User loggedUser = (User) request.getSession().getAttribute("user");
+
+		
+		DirectMessage message = new DirectMessage(messageDTO);
+		message.setMessageDate(LocalDate.now());
+		message.setSender(loggedUser);
+		if(message.getSender().getRole() == Role.ADMINISTRATOR) {
+			message.setMessageContext("|ADMIN " + message.getSender().getName() + "|" + message.getMessageContext());
+		}
+		message.setReceiver(user);
 		
 		
-		
-		return null;
+		return new DirectMessageDTO(dao.save(message));
 	}
 	
 }

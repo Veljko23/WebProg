@@ -21,6 +21,7 @@ $(document).ready(function() {
 			success: function(product) {
 				$('#success').text('Uspesno ste se ulogovali.');
 				$("#success").show().delay(3000).fadeOut();
+				window.location.href = 'http://localhost:8080/WebProg/allUsers.html';
 			},
 			error: function(message) {
 				$('#error').text(message.responseText);

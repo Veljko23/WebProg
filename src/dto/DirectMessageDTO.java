@@ -12,6 +12,8 @@ public class DirectMessageDTO {
 	private int senderId;
 	private int receiverId;
 	private String senderName;
+	private String usernameSender;
+	private String usernameReceiver;
 	
 	public DirectMessageDTO() {}
 
@@ -30,6 +32,8 @@ public class DirectMessageDTO {
 		this.senderId = message.getSender().getId();
 		this.receiverId = message.getReceiver().getId();
 		this.senderName = message.getSender().getName();
+		this.usernameSender = message.getSender().getUsername();
+		this.usernameReceiver = message.getReceiver().getUsername();
 	}
 
 	public int getId() {
@@ -80,4 +84,19 @@ public class DirectMessageDTO {
 		this.senderName = senderName;
 	}
 	
+	public String getUsernameSender() {
+		return usernameSender;
+	}
+
+	public void setUsernameSender(String usernameSender) {
+		this.usernameSender = usernameSender;
+	}
+
+	public String getUsernameReceiver() {
+		return usernameReceiver;
+	}
+
+	public void setUsernameReceiver(String usernameReceiver) {
+		this.usernameReceiver = usernameReceiver;
+	}
 }

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -147,5 +148,38 @@ public class DirectMessageDAO {
 
 	public DirectMessage delete(int id) {
 		return messages.remove(id);
+	}
+	
+	public void addIfMessageNotExisting(ArrayList<User> users, User user) {
+        for(User userIter : users) {
+            if(userIter.getId() == user.getId()) {
+                return;
+            }
+        }
+        users.add(user);
+    }
+
+    public ArrayList<User> getAllUserMessageFriends(int userId){
+        ArrayList<User> messageFriends = new ArrayList<User>();
+        for(DirectMessage directMessage : messages.values()) {
+            if(directMessage.getSender().getId() == userId) {
+                addIfMessageNotExisting(messageFriends, directMessage.getReceiver()); 
+            }else if(directMessage.getReceiver().getId() == userId) {
+                addIfMessageNotExisting(messageFriends, directMessage.getSender()); 
+            }
+        }
+        return messageFriends;
+    }
+    
+    public ArrayList<DirectMessage> getChat(int user1, int user2) {
+		ArrayList<DirectMessage> messagesFound = new ArrayList<DirectMessage>();
+		for(DirectMessage message : messages.values()) {
+			if(message.getSender().getId() == user1 && message.getReceiver().getId() == user2) {
+				messagesFound.add(message);
+			}else if(message.getSender().getId() == user2 && message.getReceiver().getId() == user1) {
+				messagesFound.add(message);
+			}
+		}
+		return messagesFound;
 	}
 }

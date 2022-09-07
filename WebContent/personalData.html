@@ -9,7 +9,13 @@
 <body>
 
 	<div id="personalData">
-
+	
+		<div align="center">
+			<a href="http://localhost:8080/WebProg/messageFriends.html">Messages</a>
+			<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">Home</a>
+			<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'">Home</a>
+		</div>
+		
 		<table>
 			<tr>
 				<td>Username</td>
@@ -136,9 +142,8 @@
 				<td><button type="button" v-on:click="removeFriend(f)">Remove friend</button></td>
 			</tr>
 		</table>
-
+		
 	</div>
-
 	<script src="js/vue.js"></script>
 	<script src="js/axios.js"></script>
 	<script src="app/personalData.js"></script>

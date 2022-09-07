@@ -2,12 +2,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>All users</title>
 </head>
 <body>
 
 	<div id="allUsers">
-
+		<div align="center">
+		<a href="http://localhost:8080/WebProg/personalData.html">Personal data</a>
+		<a href="http://localhost:8080/WebProg/messageFriends.html">Messages</a>
+		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">ADMIN</a>
+		</div>
+		<br>
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">

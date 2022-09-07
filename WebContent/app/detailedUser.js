@@ -10,7 +10,8 @@ var app = new Vue({
 		message:{},
 		messageForSend: false,
 		alreadyFriends: false,
-		existFriend: false
+		existFriend: false,
+		publicProfile: false
 	},
 	mounted() {
 		axios.get('rest/users/getUserForView')

@@ -65,7 +65,7 @@ public class FriendShipRequestDAO {
 	public void loadFriendshipRequests(String contextPath) {
 		BufferedReader in = null;
 		try {
-			File file = new File(contextPath + "/podaci/requests.txt");
+			File file = new File(contextPath + "/podaci/friendshipRequests.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
 			String line;

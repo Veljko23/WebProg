@@ -2,6 +2,7 @@ var app = new Vue({
 	el: '#allUsers',
 	data: {
 		users: null,
+		currentUser:{},
 		searchName: "",
 		searchSurname: "",
 		searchBirdthBegin: "",
@@ -10,6 +11,12 @@ var app = new Vue({
 		sortType:""
 	},
 	mounted() {
+		axios.get('rest/users/currentUser')
+		.then(response => {
+			this.currentUser = response.data;
+			[day, month, year] = this.currentUser.birdthDate.split('.');
+			this.currentUser.birdthDate = year + '-' + month + '-' + day;
+		})
 		axios.get('rest/users')
 			.then(response => {
 					this.users = response.data;

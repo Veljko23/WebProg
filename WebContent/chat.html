@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Web shop</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+	<div id="chat">
+	
+	<div align="center">
+		<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'">Home</a>
+		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">Home</a>
+	</div>
+		<br>
+		<table id="tabela">
+			<thead>
+				<tr bgcolor="lightgrey">
+					<th>Sender</th>
+					<th>Receiver</th>
+					<th>Message</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+
+			<tr v-for="m in messages">
+				<td>{{m.usernameSender }}</td>
+				<td>{{m.usernameReceiver }}</td>
+				<td>{{m.messageContext }}</td>
+				<td>{{m.messageDate }}</td>
+			</tr>
+		</table>
+
+
+		<button type="button" v-on:click="showMessageButton()"> Message </button>
+		<div v-bind:hidden="sendMessageButton === false">
+		<label>Message</label>
+		<td><textarea v-model="message.messageContext"></textarea></td>
+			<button type="button" v-on:click="sendMessage()">Send</button>
+		</div>
+
+
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="app/chat.js"></script>
+</body>
+
+</html>

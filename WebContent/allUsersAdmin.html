@@ -2,12 +2,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>All users (admin)</title>
 </head>
 <body>
 
 	<div id="allUsersAdmin">
-
+		
+		<div align="center">
+		<a href="http://localhost:8080/WebProg/personalData.html">Personal data</a>
+		<a href="http://localhost:8080/WebProg/messageFriends.html">Messages</a>
+		</div>
+		<br>
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
@@ -30,7 +35,7 @@
 				<td>{{u.birdthDate }}</td>
 				<td>{{u.gender }}</td>
 				<td>{{u.role }}</td>
-				<td><div v-bind:hidden="u.privateProfile === true || u.id === currentUser.id">
+				<td><div v-bind:hidden="u.privateProfile === true || u.id === currentUser.id || u.role === 'ADMINISTRATOR'" >
 							<button type="button" v-on:click="blockUser(u)"> Block user </button>
 					</div>
 					<div v-bind:hidden="u.privateProfile === false">
