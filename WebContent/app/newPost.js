@@ -17,6 +17,7 @@ var app = new Vue({
 	methods: {
 
 		newPostCreate: function() {
+				this.newPost.picture = this.newPost.picture.split("\\").pop()
 				axios.post('rest/posts', this.newPost)
 				.then(response => { alert('Uspesno kreiran post') })
 				.catch(respones => { alert('Greska pri kreiranju posta') })

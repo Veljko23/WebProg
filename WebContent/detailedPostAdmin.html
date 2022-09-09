@@ -11,25 +11,22 @@
 <body>
 	<div id="detailedPostAdmin">
 		<div align="center">
-			<a href="http://localhost:8080/WebProg/allUsersAdmin.html">Home</a>
+			<a href="http://localhost:8080/WebProg/allUsersAdmin.html"><button class="button button1">Home</button></a>
 		</div>
-		<table>
-			<tr>
-				<td>Picture</td>
-				<td>{{post.picture}}</td>
-			</tr>
-			<tr>
-				<td>Text</td>
-				<td>{{post.text}}</td>
-			</tr>
+		<figure style="text-align: center;">
+		
 			
-		</table>
+				
+				<img v-bind:src="post.picture" alt="Not found" width="400" height="420" style="width:auto;">
+			<br>
+			
+				<figcaption>{{post.text}}</figcaption>
+		</figure>	
+		<div class="commentsPost">
 		<p> Comments </p>
 		<table border="1" id="tabela">
 			<thead>
-				<tr bgcolor="lightgrey">
-					<th>Comments</th>
-				</tr>
+				
 			</thead>
 
 			<tr v-for="c in commentsForPost">
@@ -43,7 +40,8 @@
 			</tr>
 			
 		</table>
-		
+		</div>
+		<div align="center">
 		<button type="button" v-on:click="showComment"> Comment</button>
 		
 		<div v-bind:hidden="writeComment === false">
@@ -51,10 +49,10 @@
 			<input type="text" v-model="comment.text">
 			<button type="button" v-on:click="saveComment"> Save </button>
 		</div>
-		
+		</div>
 		<br><br>
-		<button type="button" v-on:click="showDeletePost()"> Delete post</button>
-		<div v-bind:hidden="showDeleteButton === false">
+		<button type="button" v-on:click="showDeletePost()" class="deletePost"> Delete post</button>
+		<div class="deletePostMessage" v-bind:hidden="showDeleteButton === false">
 			<label>Message:</label>
 			<textarea type="text" v-model="message.messageContext"></textarea>
 			<button type="button" v-on:click="deletePost()"> Delete </button>

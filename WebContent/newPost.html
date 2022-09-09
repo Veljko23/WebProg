@@ -3,24 +3,27 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>New post</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
 	<div align="center">
-		<a href="http://localhost:8080/WebProg/allUsers.html">Home</a>
+		<a href="http://localhost:8080/WebProg/allUsers.html"><button class="button button1">Home</button></a>
 	</div>
 
 	<div id="newPost">
 
 		<form id="forma" @submit="newPostCreate" >
-			<table>
+			<table style="margin-left: 40%; margin-top: 10%;">
 				<tr>
 					<td>Picture</td>
-					<td><input type="text" name="picture" v-model="newPost.picture"></td>
+					<td><input type="file" name="picture"
+						v-model="newPost.picture"></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>Text</td>
-					<td><input type="text" name="text" v-model="newPost.text"></td>
+					<td><textarea style="width: 150%; height: 500%" type="text" name="text" v-model="newPost.text"></textarea></td>
 				</tr>
 				
 				<tr>

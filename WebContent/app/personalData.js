@@ -10,7 +10,9 @@ var app = new Vue({
 		error: 'field not entered',
 		triedRegistering: false,
 		confirmedPassword: '',
-		errorForConfirming: ''
+		errorForConfirming: '',
+		showPersonalData: false,
+		showRequests: false
 	},
 	mounted() {
 		axios.get('rest/users/currentUser')
@@ -34,6 +36,9 @@ var app = new Vue({
 				})
 	},
 	methods: {
+		showPersonalDataSection: function(){
+			this.showPersonalData = true;
+		},
 		changeUser: function() {
 			
 			this.triedRegistering = true
@@ -94,6 +99,9 @@ var app = new Vue({
 		},
 		createNewPost: function(){
 			window.location.href = "http://localhost:8080/WebProg/newPost.html"
+		},
+		showRequestsButton: function(){
+			this.showRequests = true;
 		}
 		
 	}

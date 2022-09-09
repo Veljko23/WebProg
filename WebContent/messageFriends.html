@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<title>Message</title>
+
 </head>
 <body>
 
@@ -10,11 +12,11 @@
 	<div id="messagesFriends">
 	
 		<div align="center">
-			<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">Home</a>
-			<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'">Home</a>
+			<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
+			<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
 		</div>
-
-		<table border="1" id="tabela">
+		<h2 align="center">Messages</h2>
+		<table id="messagesTable" border="1">
 			<thead>
 				<tr bgcolor="lightgrey">
 					<th>User</th>

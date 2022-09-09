@@ -40,7 +40,9 @@ var app = new Vue({
 			this.newUser.birdthDate = day + '.' + month + '.' + year + '.';
 			
 			axios.post('rest/users/register', this.newUser)
-					.then(response => {alert('Uspesno ste se registovali')})
+					.then(response => {alert('Uspesno ste se registovali')
+						window.location.href = "http://localhost:8080/WebProg/login.html"
+					})
 					.catch(response => {alert('Korisnicko ime vec postoji')})
 			event.preventDefault();
 			return;

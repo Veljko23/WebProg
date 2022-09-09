@@ -80,6 +80,13 @@ var app = new Vue({
 	            	})
 					
 	            }
+			},
+			logout: function(){
+				axios.post('rest/users/logout/')
+				.then(response => {
+					alert('Logout!')
+					window.location.href = "http://localhost:8080/WebProg/login.html"
+				})
 			}
 		
 	}

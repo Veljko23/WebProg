@@ -1,0 +1,36 @@
+#tabela {
+	position: fixed;
+	top: 35%;
+	left: 45%;
+	margin-top: -50px;
+	margin-left: -100px;
+}
+
+p{
+	margin-top: 0;
+	text-align: center;
+	margin-right: 5%;
+}
+#error, #success{
+	position: fixed;
+	left: 40%;
+	top: 20%;
+}
+
+#logButton {
+	margin-right: 5%;
+}
+
+input[type=submit]{
+	margin-left: 45%;
+	margin-top: 20%;
+	margin-bottom: 0;
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	cursor: pointer;
+	border-radius: 10%;
+}

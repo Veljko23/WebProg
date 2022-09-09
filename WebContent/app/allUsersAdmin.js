@@ -67,6 +67,13 @@ var app = new Vue({
 				event.preventDefault();
 				return;
 			},
+			logout: function(){
+				axios.post('rest/users/logout/')
+				.then(response => {
+					alert('Logout!')
+					window.location.href = "http://localhost:8080/WebProg/login.html"
+				})
+			}
 
 		
 	}

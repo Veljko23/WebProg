@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>Web shop</title>
+<title>Chat </title>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -11,11 +11,11 @@
 	<div id="chat">
 	
 	<div align="center">
-		<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'">Home</a>
-		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">Home</a>
+		<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
+		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
 	</div>
 		<br>
-		<table id="tabela">
+		<table id="chatTable">
 			<thead>
 				<tr bgcolor="lightgrey">
 					<th>Sender</th>
@@ -33,14 +33,14 @@
 			</tr>
 		</table>
 
-
+		<div id="messageButton">
 		<button type="button" v-on:click="showMessageButton()"> Message </button>
-		<div v-bind:hidden="sendMessageButton === false">
+		<div id="message" v-bind:hidden="sendMessageButton === false">
 		<label>Message</label>
 		<td><textarea v-model="message.messageContext"></textarea></td>
 			<button type="button" v-on:click="sendMessage()">Send</button>
 		</div>
-
+		</div>
 
 	</div>
 	<script src="js/vue.js"></script>

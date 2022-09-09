@@ -11,55 +11,60 @@
 <body>
 	<div id="detailedUserAdmin">
 		<div align="center">
-			<a href="http://localhost:8080/WebProg/allUsersAdmin.html">Home</a>
+			<a href="http://localhost:8080/WebProg/allUsersAdmin.html"><button class="button button1">Home</button></a>
 		</div>
 		<table>
 			<tr>
-				<td>Username</td>
+				<td>Username:</td>
 				<td>{{user.username}}</td>
 			</tr>
 			<tr>
-				<td>Email</td>
+				<td>Email:</td>
 				<td>{{user.email}}</td>
 			</tr>
 			<tr>
-				<td>Role</td>
+				<td>Role:</td>
 				<td>{{user.role}}</td>
 			</tr>
 			<tr>
-				<td>Name</td>
+				<td>Name:</td>
 				<td>{{user.name}}</td>
 			</tr>
 			<tr>
-				<td>Surname</td>
+				<td>Surname:</td>
 				<td>{{user.surname}}</td>
 			</tr>
 		</table>
+		<div class="detailUserPosts">
 		<p>Posts</p>
+		<div id="postTable">
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
-					<th>Posts</th>
+					
 				</tr>
 			</thead>
 
 			<tr v-for="p in userForViewPost">
-				<td v-on:click="clickedPost(p)">{{p.picture}}</td>
-				<td v-on:click="clickedPost(p)">{{p.text}}</td>
+				<td v-on:click="clickedPost(p)"><img v-bind:src="p.picture" alt="Not found" width="200" height="200" style="width:auto;"></td>
+				<td v-on:click="clickedPost(p)">{{p.text.substring(0,15) + "..." }}</td>
+
 			</tr>
 		</table>
+		</div>
+		</div>
 		<br>
 
 		<br> <br>
 		<div v-bind:hidden="user.privateProfile === true || user.role === 'ADMINISTRATOR'">
-			<button type="button" v-on:click="blockUser()">Block user</button>
+			<button class="blockUser" type="button" v-on:click="blockUser()">Block user</button>
 		</div>
 		<div v-bind:hidden="user.privateProfile === false">
-			<button type="button" v-on:click="unblockUser()">Unblock user</button>
+			<button class="unblockUser" type="button" v-on:click="unblockUser()">Unblock user</button>
 		</div>
+		<br><br>
 		
-		
-		<button type="button" v-on:click="showMessageButton()"> Message </button>
+		<button type="button" v-on:click="showMessageButton()"> Send message to {{user.name}} </button>
 		
 		<div v-bind:hidden="messageForSend === false">
 		<label>Message</label>

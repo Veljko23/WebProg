@@ -3,11 +3,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-
+<h2 id="reg">Registration form</h2>
 	<div id="register">
-
+		
 		<form id="forma" @submit="registerUser" >
 			<table>
 				<tr>
@@ -55,12 +56,12 @@
 					<td v-bind:hidden="!triedRegistering || errorForConfirming ===''">{{errorForConfirming}}</td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="Register"></td>
+					
 				</tr>
 			</table>
-
+			<input type="submit" value="Register">
 		</form>
-		<p>You already have an account? Please <a href="http://localhost:8080/WebProg/login.html">Login</a></p>
+		<p id="log">You already have an account? Please <a href="http://localhost:8080/WebProg/login.html">Login</a></p>
 
 	</div>
 	

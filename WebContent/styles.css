@@ -1,6 +1,10 @@
+body{
+	background-color: #eceabb;
+}
 tr.selected {
 	background: lightblue;
 }
+
 tr {
 	cursor: pointer;
 }
@@ -10,5 +14,191 @@ tr {
 }
 
 #success {
-	color: green;	
+	color: green;
+}
+
+.button {
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	padding: 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
+
+.button1 {
+	border-radius: 50%;
+}
+
+#register{
+	position: fixed;
+	left: 35%;
+	top: 10%;
+}
+#register input[type="text"], input[type="password"], input[type="date"], select{
+	padding: 10px 15px;
+  	box-sizing: border-box;
+}
+
+#register input[type="submit"]{
+	position: fixed;
+	margin-left: 8%;
+	margin-top: 1%;
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	cursor: pointer;
+	border-radius: 10%;
+}
+#log{
+	position: fixed;
+	margin-top: 5%;
+}
+
+#reg{
+	margin-left: 40%;
+}
+
+#allUsers{
+	margin-left: auto;
+  	margin-right: auto;
+}
+#allUsersAdmin{
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+
+#allUsersTable, #allUsersSearch{
+	margin-left: auto;
+  	margin-right: auto;
+}
+#allUsersAdminTable{
+	margin-left: auto;
+  	margin-right: auto;
+}
+#sort{
+	margin-left: 60%;
+
+}
+
+#allUsersAdminSearch{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#messagesTable{
+	margin-left: auto;
+	margin-right: auto;
+}
+#messagesTable th{
+	width: 30%;
+	text-align: center;
+}
+#messagesTable tr{
+	text-align: center;
+}
+#chatTable{
+	margin-left: auto;
+	margin-right: auto;
+}
+#messageButton{
+	margin-left: 45%;
+}
+#message{
+	margin-left: -10%;
+}
+#postTable{
+	margin-left: 40%;
+}
+.newPost{
+	margin-left: 47%;
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	cursor: pointer;
+	border-radius: 10%;
+}
+.personalInfo,  .removeFriend, .blockUser, .unblockUser{
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 10%;
+}
+.personal{
+	position:absolute;
+}
+.showRequest{
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 10%;
+	margin-top: 0;
+}
+.requests{
+	
+	top: 50%;
+}
+
+.detailUserPosts p{
+	margin-left: 48.5%;
+	font-size: 20px;
+}
+.myPost{
+	margin-top: 5%;
+	margin-left: 40%;
+}
+
+
+.commentsPost{
+	margin-left: 40%;
+}
+.commentsPost p{
+	margin-left: 12%;
+	font-weight: bold;
+}
+.deletePost{
+	position: absolute;
+	top: 100px;
+	right: 20px;
+	background-color: #808080; /* Green */
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 10%;
+}
+.deletePostMessage{
+	position: absolute;
+	top: 120px;
+	right: 20px;
+}
+
+#divpic{
+	margin-top: 5%;
+	margin-left: 40%;
+	text-align: justify;
+}
+.photoDesc{
+	text-align: justify;
 }

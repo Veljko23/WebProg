@@ -11,24 +11,23 @@
 <body>
 	<div id="myPost">
 		<div align="center">
-			<a href="http://localhost:8080/WebProg/allUsers.html">Home</a>
+			<a href="http://localhost:8080/WebProg/allUsers.html"><button class="button button1">Home</button></a>
 		</div>
-		<table>
-			<tr>
-				<td>Picture</td>
-				<td>{{post.picture}}</td>
-			</tr>
-			<tr>
-				<td>Text</td>
-				<td>{{post.text}}</td>
-			</tr>
+		<figure style="text-align: center;">
+		
 			
-		</table>
+				
+				<img v-bind:src="post.picture" alt="Not found" width="400" height="420" style="width:auto;">
+			<br>
+			
+				<figcaption>{{post.text}}</figcaption>
+		</figure>	
+		
+		<div class="commentsPost">
 		<p> Comments </p>
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
-					<th>Comments</th>
 				</tr>
 			</thead>
 
@@ -37,12 +36,12 @@
 				<td>{{c.userSurname}}</td>
 				<td>{{c.text}}</td>
 				<td>{{c.commentDate}}</td>
-
+				<td><button type="button" v-on:click="deleteCommentUser(c)"> Delete </button></td>
 			</tr>
 		</table>
+		</div>
 		
-		
-		<button type="button" v-on:click="deletePost()"> Delete post</button>
+		<button type="button" v-on:click="deletePost()" class="deletePost"> Delete post</button>
 
 
 

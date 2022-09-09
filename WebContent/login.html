@@ -2,19 +2,20 @@
 <head>
 	<title>Login</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="login.css">
 	<script src="jquery-3.3.1.min.js"></script>
 	<script src="login.js"></script>
 </head>
 <body>
 	<form id="forma">
-		<table>
+		<table id="tabela">
 			<tr><td>Username</td><td><input type="text" name="username"></td><td><p id="errorUsername" hidden="true"></p></td></tr>
 			<tr><td>Password</td><td><input type="password" name="password"></td><td><p id="errorPassword" hidden="true"></p></td></tr>
-			<tr><td><input type="submit" value="Login"></td></tr>
+			
 		</table>
 		<p id="error" hidden="true"></p>
 		<p id="success" hidden="true"></p>
+		<input type="submit" value="Login">
 	</form>
 	<p>You don't have an account? Please <a href="http://localhost:8080/WebProg/register.html">Register</a></p>
 </body>

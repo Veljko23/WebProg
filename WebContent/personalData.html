@@ -11,11 +11,12 @@
 	<div id="personalData">
 	
 		<div align="center">
-			<a href="http://localhost:8080/WebProg/messageFriends.html">Messages</a>
-			<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">Home</a>
-			<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'">Home</a>
+			<a href="http://localhost:8080/WebProg/messageFriends.html"><button class="button button1">Messages</button></a>
+			<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
+			<a href="http://localhost:8080/WebProg/allUsers.html" v-bind:hidden="currentUser.role === 'ADMINISTRATOR'"><button class="button button1">Home</button></a>
 		</div>
-		
+		<button type="button" class="personalInfo" v-on:click="showPersonalDataSection()">Personal information</button>
+		<div v-bind:hidden="showPersonalData === false" class="personal">
 		<table>
 			<tr>
 				<td>Username</td>
@@ -76,19 +77,13 @@
 				<td><button v-on:click="changeUser()">Change</button></td>
 			</tr>
 		</table>
-
-		<table border="1" id="tabela">
-			<thead>
-				<tr bgcolor="lightgrey">
-					<th>Path</th>
-				</tr>
-			</thead>
-			<tr v-for="u in currentUser.pictures">
-				<td>{{u}}</td>
-			</tr>
-		</table>
+		</div>
+		
 		<br>
-
+		<br>
+		<h1 align="center">Posts</h1>
+		<div id="postTable">
+		
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
@@ -96,16 +91,19 @@
 					<th>Text</th>
 				</tr>
 			</thead>
-
+		
 			<tr v-for="u in posts">
-				<td v-on:click="clickedPicture(u)">{{u.picture }}</td>
-				<td v-on:click="clickedPicture(u)">{{u.text }}</td>
+				<td v-on:click="clickedPicture(u)"><img v-bind:src="u.picture" alt="Not found" width="200" height="200" style="width:auto;"></td>
+				<td v-on:click="clickedPicture(u)">{{u.text.substring(0,15) + "..." }}</td>
 			</tr>
 		</table>
+		</div>
 		<br>
-		<button type="button" v-on:click="createNewPost()">New post</button>
-		<br><br>
+		<button class="newPost" type="button" v-on:click="createNewPost()">New post</button>
 		
+		<br><br><br><br><br><br>
+		<button type="button" class="showRequest" v-on:click="showRequestsButton()">Show requests</button>
+		<div v-bind:hidden="showRequests === false" class="requests">
 		<table border="1" id="tabela">
 			<thead>
 				<tr bgcolor="lightgrey">
@@ -116,7 +114,7 @@
 				</tr>
 			</thead>
 			<br>
-			Requests
+			<p><b>Requests</b></p>
 			<tr v-for="r in requests">
 				<td>{{r.senderName }}</td>
 				<td>{{r.requestDate }}</td>
@@ -125,6 +123,7 @@
 				<td><button type="button" v-on:click="denyRequest(r)">Deny</button></td>
 			</tr>
 		</table>
+		</div>
 		<br>
 			<table border="1" id="tabela">
 			<thead>
@@ -134,7 +133,7 @@
 				</tr>
 			</thead>
 			<br><br>
-			Friends
+			<h1>Friends</h1>
 			<tr v-for="f in friends">
 				<td>{{f.name }}</td>
 				<td>{{f.surname }}</td>

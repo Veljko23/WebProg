@@ -40,6 +40,7 @@ public class PostDAO {
 
 	
 	public Post save(Post post, User loggedUser) {
+		post.setPicture("pictures/" + post.getPicture());
 		int maxId = -1;
 		for (int id : posts.keySet()) {
 			if (id > maxId) {

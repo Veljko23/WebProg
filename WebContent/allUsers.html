@@ -3,17 +3,19 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>All users</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
 	<div id="allUsers">
 		<div align="center">
-		<a href="http://localhost:8080/WebProg/personalData.html">Personal data</a>
-		<a href="http://localhost:8080/WebProg/messageFriends.html">Messages</a>
-		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'">ADMIN</a>
+		<a href="http://localhost:8080/WebProg/personalData.html"><button class="button button1">Personal data</button></a>
+		<a href="http://localhost:8080/WebProg/messageFriends.html"><button class="button button1">Messages</button></a>
+		<a href="http://localhost:8080/WebProg/allUsersAdmin.html" v-bind:hidden="currentUser.role !== 'ADMINISTRATOR'"><button class="button button1">ADMIN</button></a>
+		<a href="http://localhost:8080/WebProg/login.html"><button class="button button1" v-on:click="logout()">Logout</button></a>
 		</div>
 		<br>
-		<table border="1" id="tabela">
+		<table border="1" id="allUsersTable">
 			<thead>
 				<tr bgcolor="lightgrey">
 					<th>Username</th>
@@ -40,7 +42,7 @@
 
 		<br>
 
-		<table id="pretraga">
+		<table id="allUsersSearch">
 			<tr>
 				<td>Name</td>
 				<td><input type="text" name="name" v-model="searchName">
@@ -64,14 +66,14 @@
 		</table>
 		
 		<br> 
-		
+		<div id="sort">
 		<select v-model="sortType">
 			<option value="Name">Name</option>
 			<option value="Surname">Surname</option>
 			<option value="BirdthDate">BirthDate</option>
 		</select>
 		<button type="button" v-on:click="sortUsers"> Sort </button>
-
+		</div>
 	</div>
 	<script src="js/vue.js"></script>
 	<script src="js/axios.js"></script>
